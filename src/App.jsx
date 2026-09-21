@@ -13,20 +13,20 @@ const App = () => {
         <Sidebar />
         <div className="dashboard">
           <main className="mainContent">
-            <Routes>
-              <Route path="/" element={
-                <>
-                  <p>GOOD MORNING</p>
-                  <div className="dashboardHeader">
-                    <h1>Ready to learn?</h1>
-                    <button className="newDeck">+ New Deck</button>
-                  </div>
-                </>
-              } />
+            
+                // <>
+                //   <p>GOOD MORNING</p>
+                //   <div className="dashboardHeader">
+                //     <h1>Ready to learn?</h1>
+                //     <button className="newDeck">+ New Deck</button>
+                //   </div>
+                // </>
+            
+              <Route path="/" element={<Dashboard/>} />
               <Route path="/Mydecks" element={<Mydecks />} />
               <Route path="/Review" element={<Review />} />
               <Route path="/Statistics" element={<Statistics />} />
-            </Routes>
+           
           </main>
         </div>
       </div>
