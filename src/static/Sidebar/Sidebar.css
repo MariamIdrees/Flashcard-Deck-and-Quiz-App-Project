@@ -1,25 +1,7 @@
-.dashboardContainer{
-    display: flex;
-}
-
-.dashboardHeader{
-    display: flex;
-    justify-content: space-between;
-    width: 70vw;
-    margin-top: 40px;
-
-    h1{
-        font-size: 40px;
-    }
-}
-
-
-
-
 
 .sidebar {
   width: 250px;
-  height: 100vh;
+  height: fixed;
   background-color: black;
   color: white;
 
@@ -30,19 +12,19 @@
   box-sizing: border-box;
 }
 
-.sidebar-logo {
+.sidebarLogo {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 40px;
 }
 
-.sidebar-nav {
+.sidebarNav {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.sidebar-link {
+.sidebarLink {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -57,51 +39,36 @@
   transition: 0.3s;
 }
 
-.sidebar-link:hover {
+.sidebarLink:hover {
   background-color: #374151;
 }
 
-.sidebar-link.active {
-  background-color: #2563eb;
-}
+/* .sidebarLinkActive:hover {
+  background-color:  #374151;
+} */
 
-.sidebar-bottom {
+.sidebarBottom {
   margin-top: auto;
 }
 
 
-.dashboard {
-  display: flex;
-  min-height: 100vh;
-}
 
-.mainContent{
-  flex: 1;
-  padding: 40px;
-}
-
-.newDeck{
-    background-color:#2563eb ;
-    padding: 15px 20px;
-    border-radius: 15px;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 500px) {
   .sidebar {
     width: 70px;
     padding: 20px 10px;
   }
 
-  .sidebar-logo {
+  .sidebarLogo {
     text-align: center;
     font-size: 18px;
   }
 
-  .sidebar-link {
+  .sidebarLink {
     justify-content: center;
   }
 
-  .sidebar-link span {
+  .sidebarLink span {
     display: none;
   }
 }

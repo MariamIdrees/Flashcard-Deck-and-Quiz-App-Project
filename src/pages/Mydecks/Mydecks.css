@@ -1,0 +1,67 @@
+
+.decksCointainer{
+    margin: 20px 20px;
+}
+.library{
+    font-size: 13px;
+    /* background-color: red; */
+    color: #8D8D99;
+}
+.deckButton{
+    /* background-color: aquamarine; */
+    width: 70vw;
+    display: flex;
+    justify-content: space-between;
+
+    h1{
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    button{
+        background-color: #7455E8;
+        padding: 9px 17px;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+    }
+}
+
+.allDecks{
+    margin-top: 20px;
+    h1{
+        font-size: 30px;
+        font-weight: bold;
+    }
+}
+.deckp{
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: space-between;
+    width: 120px;
+    color: #90909A;
+    font-size: 15px;
+}
+
+.searchDeck{
+    margin-top: 10px;
+    display: flex;
+    gap: 20px;
+}
+
+.searchbigDeck{
+ width: 55vw;
+ height: 45px;
+ border-radius: 15px;
+ background-color: white;
+ border: #8D8D99;
+}
+
+.findDeck{
+ width: 15vw;
+ height: 45px;
+ border-radius: 15px;
+ background-color: white;
+ cursor: pointer;
+}
