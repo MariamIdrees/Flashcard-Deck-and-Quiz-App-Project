@@ -8,6 +8,7 @@ import Statistics from "./pages/Statistics/Statistics"
 
 const App = () => {
   return (
+    
     <BrowserRouter>
      
    <div className="dashboardContainer">    
