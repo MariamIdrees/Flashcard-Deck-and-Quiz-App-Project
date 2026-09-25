@@ -4,35 +4,35 @@ import { Link } from "react-router-dom";
 const Sidebar = () => {
   return (
     <aside className="sidebar">
-      <div className="sidebar-logo">
-        <img src="/recallicon.jpeg" alt="recall logo" />
+      <div className="sidebarLogo">
+        <img src="/recallicon2.jpeg" alt="recall logo" />
      
       </div>
 
-      <nav className="sidebar-nav">
-        <Link to="/" className="sidebar-link active">
+      <nav className="sidebarNav">
+        <Link to="/" className="sidebarLink">
           🏠
           <span>Dashboard</span>
         </Link>
 
-        <Link to="/Mydecks" className="sidebar-link">
+        <Link to="/Mydecks" className="sidebarLink">
           📊
           <span>Mydecks</span>
         </Link>
 
-        <Link to="/Review" className="sidebar-link">
+        <Link to="/Review" className="sidebarLink">
           📚
           <span>Review</span>
         </Link>
 
-        <Link to="/Statistics" className="sidebar-link">
+        <Link to="/Statistics" className="sidebarLink">
           ⚙️
           <span>Statistics</span>
         </Link>
       </nav>
 
-      <div className="sidebar-bottom">
-        <a href="#" className="sidebar-link">
+      <div className="sidebarBottom">
+        <a href="#" className="sidebarLink">
           🚪
           <span>Streak</span>
         </a>
