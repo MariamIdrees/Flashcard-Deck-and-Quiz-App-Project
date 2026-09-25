@@ -50,13 +50,30 @@
 .sidebarBottom {
   margin-top: auto;
 }
+.hamburger{
+  display: none;
+ 
+}
 
 
 
 @media (max-width: 500px) {
+  .hamburger{
+    /* background-color: white; */
+    display: block;
+    position: fixed;
+    color: black;
+    top: 20px;
+    left: 20px;
+    z-index: 50;
+    cursor: pointer;
+  }
   .sidebar {
-    width: 70px;
-    padding: 20px 10px;
+    position: fixed;
+    left: -250px;
+    top: 0px;
+    width: 250px;
+    
   }
 
   .sidebarLogo {
@@ -65,11 +82,31 @@
   }
 
   .sidebarLink {
+    justify-content: flex-start;
+  }
+
+  .sidebarLink span {
+    display: inline;
+  }
+}
+
+
+@media (max-width:764px) {
+  .sidebar{
+    width: 70px;
+    padding: 20px 10px;
+  }
+  .sidebarLogo{
+    text-align: center;
+    font-size: 18px;
+  }
+  .sidebarLink{
     justify-content: center;
+ 
+  
   }
 
   .sidebarLink span {
     display: none;
   }
 }
-

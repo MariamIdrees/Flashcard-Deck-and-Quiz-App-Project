@@ -1,9 +1,28 @@
 import "./Sidebar.css"
 import { Link } from "react-router-dom";
+import {useState} from "react"
+import { Menu } from "lucide-react";
+// import { SidebarOpen } from "lucide-react"
 
-const Sidebar = () => {
+
+const Sidebar = ({isOpen, closeSidebar}) => {
+     const [sidebarOpen, setSidebarOpen] = useState(false)
+
+
   return (
-    <aside className="sidebar">
+    
+    
+
+    <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+
+      
+         <button className="hamburger" onClick={() =>setSidebarOpen(!sidebarOpen)}>
+      <Menu />
+    </button>
+     {/* <Sidebar isOpen={sidebarOpen}
+        closeSidebar={()=> setSidebarOpen(false)}
+         />  */}
+
       <div className="sidebarLogo">
         <img src="/recallicon2.jpeg" alt="recall logo" />
      
@@ -37,6 +56,9 @@ const Sidebar = () => {
           <span>Streak</span>
         </a>
       </div>
+       
+      
+   
     </aside>
   );
 }

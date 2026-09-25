@@ -6,12 +6,21 @@ import Review from "./pages/Review/Review"
 import Statistics from "./pages/Statistics/Statistics"
 
 
+
+
+
 const App = () => {
+
   return (
+    
     <BrowserRouter>
+    
      
-   <div className="dashboardContainer">    
-        <Sidebar />   
+   <div className="dashboardContainer"> 
+       
+        <Sidebar/>   
+    
+       
         <div className="dashboard">
           <main className="mainContent">
            

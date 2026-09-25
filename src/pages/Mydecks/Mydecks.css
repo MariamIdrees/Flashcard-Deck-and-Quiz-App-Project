@@ -65,3 +65,121 @@
  background-color: white;
  cursor: pointer;
 }
+
+.flashcardGrid {
+  
+  width: 400px;
+  margin: 50px auto;
+
+  button{
+    text-align: center;
+  }
+}
+.deckList {
+  display: grid;
+  grid-template-columns: repeat(2, 400px);
+  gap: 60px 30px;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.deckCard {
+     display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 250px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+  cursor: pointer;
+  position: relative;
+  background-color: white;
+  border: 1px solid #ddd;
+}
+
+.deckCard:nth-child(1) {
+  background-color: #dbeafe;
+}
+
+.deckCard:nth-child(2) {
+  background-color: #dcfce7;
+}
+
+.deckCard:nth-child(3) {
+  background-color: #fef3c7;
+}
+
+.deckCard:nth-child(4) {
+  background-color: #fce7f3;
+}
+
+.flashcardButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+  align-items: center;
+  width: 100%;
+}
+
+.editButtons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.editCardForm textarea {
+  width: 400px;
+  min-height: 80px;
+  padding: 12px;
+  box-sizing: border-box;
+  resize: none;
+  font-size: 16px;
+}
+
+
+.createDeckForm {
+  width: 500px;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.createDeckForm label,
+.createDeckForm input,
+.createDeckForm textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.createDeckForm input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.createDeckForm textarea {
+  min-height: 100px;
+  padding: 12px;
+  resize: none;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.newCardsList {
+  margin-top: 20px;
+}
+
+.newCardItem {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
