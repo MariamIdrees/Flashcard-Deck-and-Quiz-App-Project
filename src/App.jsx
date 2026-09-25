@@ -17,9 +17,9 @@ const App = () => {
     
      
    <div className="dashboardContainer"> 
-       
+        <div className="sidebarWrap">
         <Sidebar/>   
-    
+         </div>
        
         <div className="dashboard">
           <main className="mainContent">

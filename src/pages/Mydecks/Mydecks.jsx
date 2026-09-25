@@ -5,7 +5,7 @@ import {useState} from "react"
 
 const Mydecks = () => {
   
- const [myDecks, setMyDecks] = useState(decks)
+const [myDecks, setMyDecks] = useState(decks)
 const [selectedDeck, setSelectedDeck] = useState(null)
 const [currentCard, setCurrentCard] = useState(0)
 const [isEditing, setIsEditing] = useState(false)
@@ -30,9 +30,7 @@ const [newCardAnswer, setNewCardAnswer] = useState("")
 
         <div className="deckButton">
           <h1>My decks</h1>
-         <button onClick={() => setIsCreatingDeck(true)}>
-                       + New Deck
-           </button>
+         <button onClick={() => setIsCreatingDeck(true)}>  + New Deck </button>
         </div>
 
         <div className="allDecks">
@@ -54,26 +52,25 @@ const [newCardAnswer, setNewCardAnswer] = useState("")
           
         </div>
 
-                            {isCreatingDeck && (
-  <div className="createDeckForm">
-    <h2>Create New Deck</h2>
+          {isCreatingDeck && (
+            <div className="createDeckForm">
+             <h2>Create New Deck</h2>
 
-    <label>Deck Title</label>
+            <label>Deck Title</label>
 
-    <input
-      type="text"
-      placeholder="Enter deck title"
-      value={newDeckTitle}
-      onChange={(e) => setNewDeckTitle(e.target.value)}
-    />
+             <input
+              type="text"
+              placeholder="Enter deck title"
+               value={newDeckTitle}
+               onChange={(e) => setNewDeckTitle(e.target.value)} />
 
-    <label>Question</label>
+             <label>Question</label>
 
-    <textarea
-      placeholder="Enter question"
-      value={newQuestion}
-      onChange={(e) => setNewQuestion(e.target.value)}
-    ></textarea>
+              <textarea
+              placeholder="Enter question"
+              value={newQuestion}
+             onChange={(e) => setNewQuestion(e.target.value)}
+              ></textarea>
 
     <label>Answer</label>
 
@@ -145,14 +142,11 @@ const [newCardAnswer, setNewCardAnswer] = useState("")
              {myDecks.map((deck) => (
              <div className="deckCard"
                key={deck.id}
-              onClick={() => setSelectedDeck(deck)}
-                 >
+              onClick={() => setSelectedDeck(deck)}  >
                 <h1>{deck.title}</h1>
         
-                 </div>
-                  ))}
-                  </div>
-                  )}
+                 </div> ))}
+                  </div> )}
 
 
 <div className="flashcardGrid">

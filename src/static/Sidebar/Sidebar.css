@@ -1,15 +1,20 @@
 
 .sidebar {
   width: 250px;
-  height: fixed;
+  height: 100%;
   background-color: black;
   color: white;
-
   display: flex;
   flex-direction: column;
 
   padding: 20px;
   box-sizing: border-box;
+}
+
+.sidebarWrap{
+  height: 100vh;
+  /* position: fixed; */
+  border: 1px solid red;
 }
 
 .sidebarLogo {

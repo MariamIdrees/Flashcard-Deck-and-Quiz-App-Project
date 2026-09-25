@@ -3,12 +3,19 @@
     display: flex;
     background-color: #F7F7FB;
     width: 100vw;
+    height: 100vh;
+   
+    align-items: start;
+}
+
+.dashhboardOverflow{
+    
 }
 
 .dashboardHeader{
     display: flex;
     justify-content: space-between;
-    width: 70vw;
+    /* width: 70vw; */
     margin-top: 40px;
   
     h1{
@@ -19,8 +26,11 @@
 }
 
 .dashboard {
-  display: flex;
+  /* display: flex; */
   min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  /* overflow-y: scroll; */
 
 }
 
@@ -34,8 +44,9 @@
 }
 
 .mainContent{
-  flex: 1;
+  border: 1px solid green;
   padding: 40px;
+  overflow-y: scroll;
  
 
 }
@@ -57,7 +68,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 210px;
+    /* width: 210px; */
     height: 90px;
     border-radius: 20px;
     background-color: white;
