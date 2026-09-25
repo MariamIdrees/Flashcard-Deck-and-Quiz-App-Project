@@ -1,0 +1,221 @@
+
+.dashboardContainer{
+    display: flex;
+    background-color: #F7F7FB;
+}
+
+.dashboardHeader{
+    display: flex;
+    justify-content: space-between;
+    width: 70vw;
+    margin-top: 40px;
+    /* line-height: 0.8px; */
+
+   
+
+    h1{
+        font-weight: 600;
+        font-size: 30px;
+       
+    }
+}
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  flex: 1;
+}
+
+.dashboardText{
+    /* background-color: aqua; */
+    line-height: 0px;
+     p{
+      font-size: 15px;
+      font-weight: 800;
+      color: #8D8DA6;
+    }
+   
+}
+
+.mainContent{
+  flex: 1;
+  padding: 40px;
+ 
+ 
+  /* line-height: 1; */
+}
+
+/* .newDeck{
+    background-color:purple;
+    padding: 10px 20px;
+    border-radius: 15px;
+} */
+
+.smallcardContainer{
+    display: flex;
+    justify-content: space-between;
+   
+}
+
+.smallcard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 210px;
+    height: 90px;
+    border-radius: 20px;
+    background-color: white;
+    /* border: 1px solid black; */
+    margin-top: 30px;
+    /* text-align: center; */
+
+     h1{
+       
+        padding-right: 50px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    p{
+        font-size: 15px;
+    }
+}
+
+.bigcardContainer{
+    width: 950px;
+    height: 300px;
+    border-radius: 20px;
+    background-color: #211D3C;
+    margin-top: 30px;
+
+}
+
+.bigcardWrapper{
+display: flex;
+color: white;
+padding: 30px 30px;
+}
+
+.bigcardFirstcard{
+ display: flex;
+ justify-content: space-around;
+ align-items: center;
+ flex-direction: column; 
+ margin-left: 20px;
+
+
+   
+ h5{
+    padding-right: 350px;
+    color: #6545DB;
+    font-size: 12px;
+ }
+ h4{
+    padding-right: 200px;
+    font-size: 25px;
+    font-weight: bold;
+    width: 36vw;
+    padding-left: 20px;
+ }
+
+ p{
+    width: 33vw;
+ }
+
+ button{
+    padding: 10px 20px;
+    background-color: #6545DB;
+    border-radius: 20px;
+    margin-right: 300px;
+ }
+}
+
+.bigcardSecondcard{
+    position: relative;
+    color: black;
+    margin: auto;
+
+}
+
+.secondcardWrapper{
+  
+   display: flex;
+
+}
+
+.threeps{
+    display: grid;
+ 
+   
+    padding-top: 100px;
+
+    p{
+         font-size: 25px;
+            font-weight:bolder;
+    }
+}
+.closureCard{
+   width: 120px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 10px;
+    align-content: center;
+    padding: 10px;
+    top: 60px;
+    left: 80px;
+    transform: rotate(-5deg);
+}
+
+.functionCard{
+ width: 120px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: white;
+    align-self: center;
+    font-size: 10px;
+    padding: 10px;
+   bottom: 80px;
+   left: 40px;
+   transform: rotate(2deg);
+   z-index: 3;
+}
+
+.learnCard{
+    width: 180px;
+    height: 230px;
+    border-radius: 20px;
+    background-color: white;
+    padding: 20px;
+    top: 40px;
+    right: 70px;
+    transform: rotate(7deg);
+    font-weight: bold;
+    /* z-index: 1; */
+   
+}
+
+.lastquizCard{
+    width: 75vw;
+    height: 50px;
+    display: flex;
+    background-color: white;
+    border-radius: 20px;
+    margin-top: 30px;
+}
+
+.dashboardDeck{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+
+    h2{
+        font-size: 30px;
+        font-weight: bold;
+    }
+    p{
+        font-size: 15px;
+    }
+}
