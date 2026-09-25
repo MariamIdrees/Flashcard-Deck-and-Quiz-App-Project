@@ -2,7 +2,15 @@
 .dashboardContainer{
     display: flex;
     background-color: #F7F7FB;
+    width: 100vw;
+    height: 100vh;
+   
+    align-items: start;
 }
+
+/* .dashhboardOverflow{
+    
+} */
 
 .dashboardHeader{
     display: flex;
