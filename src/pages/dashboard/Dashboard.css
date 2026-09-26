@@ -56,7 +56,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  /* width: 210px; */
+  width: 210px;
   height: 90px;
   border-radius: 20px;
   background-color: white;
@@ -78,7 +78,7 @@
   width: 950px;
   height: 300px;
   border-radius: 20px;
-  background-color: #211d3c;
+  background-color: green;
   margin-top: 30px;
 }
 
@@ -97,7 +97,7 @@
 
   h5 {
     padding-right: 350px;
-    color: #6545db;
+    color: limegreen;
     font-size: 12px;
   }
   h4 {
@@ -112,12 +112,12 @@
     width: 33vw;
   }
 
-  button {
+  /* button{
     padding: 10px 20px;
     background-color: #6545db;
     border-radius: 20px;
     margin-right: 300px;
-  }
+ } */
 }
 
 .bigcardSecondcard {
