@@ -1,11 +1,10 @@
 @import "tailwindcss";
 @theme {
-    --breakpoint-sm: 320px;
+  --breakpoint-sm: 320px;
   /* This changes Tailwind's 'sm' breakpoint to exactly 500px for your project */
 }
 
-
-body{
+body {
   /* background-color: brown; */
   font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
@@ -23,6 +22,3 @@ body{
     width: auto ;
     height:auto;
   } */
-
-
-
