@@ -2,7 +2,7 @@ import "./Dashboard.css"
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="dashhboardOverflow">
 
 
    <div className="dashboardText">
