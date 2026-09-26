@@ -13,6 +13,9 @@
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.6s;
+  color: white;
+  font-weight: medium;
+  font-size: 25px;
   
 }
 
@@ -23,7 +26,7 @@
 
 .flashcardFront{
     
-    background-color: #7455E8;
+    background-color: green;
     width: 100%;
     height: 100%;
     /* border: 1px solid purple; */
@@ -37,7 +40,7 @@
     
 }
 .flashcardBack{
-    background-color: plum;
+    background-color: limegreen;
     width: 100%;
     height: 100%;
     /* border: 1px solid plum; */
@@ -51,4 +54,40 @@
     border-radius: 20px;
     backface-visibility: hidden;
     transform: rotateY(180deg);
+}
+
+.flashcardButtons {
+    background-color: red;
+  /* display: flex;
+  flex-direction: column; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+  /* align-items: center; */
+  width: 100%;
+  
+}
+
+@media (max-width:500px) {
+    .flashcardContainer{
+        width: 100%;
+        height: 200px;
+    }
+
+    .flashcard{
+        background-color: pink;
+        /* width: 90%;
+        height: 100%; */
+        font-size: 15px;
+        margin:auto
+    }
+    .flashcardButtons {
+        gap: 10px;
+        width: 100%;
+    }
+     .flashcardGrid {
+        width: 90vw;
+    }
+    
 }
