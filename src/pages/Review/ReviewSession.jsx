@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, RotateCcw } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import Flashcard from "../../components/reusable/flashcard/Flashcard";
 import "./ReviewSession.css";
 
 const SCHEDULE_KEY = "reviewSchedule";
@@ -115,36 +116,15 @@ export const ReviewSession = ({ deck, onEnd }) => {
 
         {card ? (
           <>
-            <button
-              className={`study-flashcard${isFlipped ? " is-flipped" : ""}`}
-              type="button"
-              onClick={() => setIsFlipped((flipped) => !flipped)}
-              aria-label={isFlipped ? "Show question" : "Show answer"}
-              aria-pressed={isFlipped}
-            >
-              <span className="study-card-inner">
-                <span className="study-card-face study-card-front">
-                  <span className="study-card-label">QUESTION</span>
-                  <span className="study-card-text">{card.question}</span>
-                  <span className="study-card-hint">
-                    Click the card or Show answer
-                  </span>
-                  <span className="study-card-flip-hint">
-                    <RotateCcw size={14} aria-hidden="true" /> Tap to flip
-                  </span>
-                </span>
-                <span className="study-card-face study-card-back">
-                  <span className="study-card-label">ANSWER</span>
-                  <span className="study-card-text">{card.answer}</span>
-                  <span className="study-card-hint">
-                    Rate how well you remembered
-                  </span>
-                  <span className="study-card-flip-hint">
-                    <RotateCcw size={14} aria-hidden="true" /> Tap to flip back
-                  </span>
-                </span>
-              </span>
-            </button>
+            <div className="study-flashcard-wrap">
+              <Flashcard
+                key={card.id}
+                question={card.question}
+                answer={card.answer}
+                isFlipped={isFlipped}
+                onFlip={setIsFlipped}
+              />
+            </div>
 
             {isFlipped ? (
               <div className="study-rating" aria-label="Rate card difficulty">
