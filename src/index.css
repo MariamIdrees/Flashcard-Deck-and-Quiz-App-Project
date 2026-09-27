@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @theme {
   --breakpoint-sm: 320px;
-  /* This changes Tailwind's 'sm' breakpoint to exactly 500px for your project */
+  /* This changes Tailwind's 'sm' breakpoint to exactly 500px */
 }
 
 body {
