@@ -1,24 +1,37 @@
 @import "tailwindcss";
-@theme {
-  --breakpoint-sm: 320px;
-  /* This changes Tailwind's 'sm' breakpoint to exactly 500px */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
 }
 
 body {
-  /* background-color: brown; */
-  font-family: "Roboto", sans-serif;
-  font-optical-sizing: auto;
-  background-color: #f0edff;
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "DM Sans", sans-serif;
+  background-color: #f7f8f4;
 }
 
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Space Grotesk", sans-serif;
+}
 
-} */
+button,
+input,
+textarea {
+  font: inherit;
+}
 
-/* html, body, #root {
-    width: auto ;
-    height:auto;
-  } */
+#root {
+  min-height: 100vh;
+}

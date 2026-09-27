@@ -1,0 +1,276 @@
+.study-session {
+  min-height: 100vh;
+  padding: 34px 40px 48px;
+  background: #f7f7fb;
+}
+
+.study-heading p {
+  margin: 0 0 5px;
+  color: #8d8da6;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.study-heading h1 {
+  margin: 0;
+  color: #20202a;
+  font-size: 30px;
+}
+
+.study-content {
+  width: min(760px, 100%);
+  margin: 32px auto 0;
+}
+
+.study-progress {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 11px;
+}
+
+.end-session {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  color: #55556e;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.end-session:hover {
+  color: green;
+}
+
+.study-deck-name,
+.study-count {
+  color: #77778f;
+  font-size: 12px;
+  text-align: center;
+}
+
+.study-count {
+  color: #20202a;
+  font-weight: 700;
+}
+
+.study-count span {
+  color: #92929b;
+  font-weight: 400;
+}
+
+.study-progress-track {
+  grid-column: 1 / -1;
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e2e2eb;
+}
+
+.study-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: green;
+  transition: width 200ms ease;
+}
+
+.study-flashcard-wrap {
+  width: min(400px, 100%);
+  margin: 24px auto 0;
+}
+
+.study-card-label {
+  color: green;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.study-controls {
+  display: grid;
+  grid-template-columns: 1fr minmax(150px, 1.2fr) 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.study-notice {
+  min-height: 18px;
+  margin: 0 0 8px;
+  color: #697568;
+  font-size: 12px;
+  text-align: center;
+}
+
+.study-rating {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.rating-button {
+  min-height: 54px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 1px solid #dedee8;
+  border-radius: 5px;
+  color: #292936;
+  background: white;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease;
+}
+
+.rating-button small {
+  color: #77778f;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.rating-again:hover {
+  border-color: #db766d;
+  background: #fff5f4;
+}
+
+.rating-hard:hover {
+  border-color: #d6a455;
+  background: #fffaf0;
+}
+
+.rating-good:hover,
+.rating-easy:hover {
+  border-color: #69a96b;
+  background: #f4fbf3;
+}
+
+.study-complete {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 40px;
+  border: 1px solid #e5e5ee;
+  border-radius: 10px;
+  background: white;
+  text-align: center;
+}
+
+.study-complete h2 {
+  margin: 0;
+  color: #20202a;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 25px;
+}
+
+.study-complete p {
+  max-width: 430px;
+  margin: 0;
+  color: #77778f;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.study-complete .study-answer-button {
+  margin-top: 8px;
+  padding: 0 18px;
+}
+
+.study-controls button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.study-step-button {
+  border: 1px solid #d9d9e5;
+  color: #55556e;
+  background: white;
+}
+
+.study-step-button:hover {
+  border-color: green;
+  color: green;
+}
+
+.study-answer-button {
+  border: 1px solid green;
+  color: white;
+  background: green;
+}
+
+.study-answer-button:hover {
+  border-color: limegreen;
+  background: limegreen;
+}
+
+.study-controls button:focus-visible,
+.study-rating button:focus-visible,
+.study-complete button:focus-visible,
+.end-session:focus-visible {
+  outline: 3px solid #91c991;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .study-session {
+    padding: 72px 18px 28px;
+  }
+
+  .study-content {
+    margin-top: 24px;
+  }
+
+  .study-progress {
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+  }
+
+  .study-deck-name {
+    display: none;
+  }
+
+  .study-flashcard-wrap {
+    margin-top: 16px;
+  }
+
+  .study-controls {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .study-rating {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .study-answer-button {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .study-progress-track span {
+    transition-duration: 0.01ms;
+  }
+}

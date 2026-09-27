@@ -1,6 +1,38 @@
 import "./Dashboard.css"
+import { useState, useEffect } from "react";
+import decks from "../Mydecks/data/flashcard";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+    const [myDecks, setMyDecks] = useState(() => {
+    const savedDecks = localStorage.getItem("myDecks");
+
+    return savedDecks ? JSON.parse(savedDecks) : decks;
+  });
+  const [lastQuiz, setLastQuiz] = useState(null);
+
+  useEffect(() => {
+    const savedDecks = localStorage.getItem("myDecks");
+
+    if (savedDecks) {
+      setMyDecks(JSON.parse(savedDecks));
+    }
+  }, []);
+
+  useEffect(() => {
+  const savedQuiz = localStorage.getItem("lastQuizResult");
+
+  if (savedQuiz) {
+    setLastQuiz(JSON.parse(savedQuiz));
+  }
+}, []);
+
+  const totalCards = myDecks.reduce(
+    (total, deck) => total + deck.cards.length,
+    0
+  );
+
   return (
     <div className="dashhboardOverflow">
 
@@ -14,14 +46,14 @@ const Dashboard = () => {
 
   <div className="smallcardContainer">
      <div className="smallcard">
-         <h1>4</h1>
-         <p>Total Decks</p>
+                    <h1>{myDecks.length}</h1>
+<p>Total Decks</p>
                       
      </div>
 
      <div className="smallcard">
-         <h1>40</h1>
-         <p>Flashcards</p>
+       <h1>{totalCards}</h1>
+<p>Flashcards</p>
                       
       </div>
 
@@ -60,7 +92,7 @@ const Dashboard = () => {
            </div>
                <div className="learnCard">
                    <div>
-                      <img src="" alt="" />
+                      <img className=" w-20 h-10" src="recallicon4.jpeg" alt="Recall icon" />
                          <div className="threeps">
                               <p> Learn.</p>
                               <p> Recall.</p>
@@ -74,23 +106,56 @@ const Dashboard = () => {
      </div>
     </div>
                     
+<div className="lastquizCard">
+  <div className="lastQuizLeft">
+    <h6 className="text-green-800 font-bold text-[10px]">LAST QUIZ</h6>
 
-          <div className="lastquizCard">
-              <h6>LAST QUIZ</h6>
+    <h3>
+      {lastQuiz ? lastQuiz.deckTitle : "No quiz taken yet"}
+    </h3>
 
-           </div>
+    <p>
+      {lastQuiz
+        ? `${lastQuiz.score}/${lastQuiz.totalQuestions} correct`
+        : "Take a quiz to see your result"}
+    </p>
+  </div>
 
-      <div className="dashboardDeck">
-        <div>
-          <h2>Your Decks</h2>
-          <p>Decks with the most cards due are shown first.</p>
-        </div>
+  <div className="lastQuizRight">
+    <strong>
+      {lastQuiz ? `${lastQuiz.percentage}%` : "--"}
+    </strong>
 
-        <p>view here</p>
-     
+    <p className="text-green-700 text-[12px] font-bold">See stats →</p>
+  </div>
+</div>
+    <div className="dashboardDeck">
+  <div>
+    <h2>Your Decks</h2>
+    <p>Decks with the most cards due are shown first.</p>
+  </div>
 
+ <p onClick={() => navigate("/Mydecks")}className="viewHere"> View here</p>
+</div>
 
-      </div>
+<div className="dashboardDeckList">
+  {myDecks.map((deck) => (
+    <div
+      className="dashboardDeckCard"
+      key={deck.id}
+      onClick={() =>
+        navigate("/Mydecks", {
+          state: {
+            deckId: deck.id,
+          },
+        })
+      }
+    >
+      <h3>{deck.title}</h3>
+      <p>{deck.cards.length} cards</p>
+    </div>
+  ))}
+</div>
                       
 
        

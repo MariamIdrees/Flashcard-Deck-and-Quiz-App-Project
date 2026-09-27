@@ -1,15 +1,20 @@
 import { useState } from "react"
 import "./Flashcard.css"
 
- const Flashcard = ({question, answer}) => {
+ const Flashcard = ({question, answer, isFlipped, onFlip}) => {
     const [flipped, setFlipped] =useState(false)
+  const cardFlipped = isFlipped ?? flipped
     const handleFlip =() =>{
-        setFlipped(!flipped)
+    if (onFlip) {
+      onFlip(!cardFlipped)
+    } else {
+      setFlipped(!flipped)
+    }
     }
 
   return (
     <div className="flashcardContainer">
-     <div className={`flashcard ${flipped ? "flipped" : ""}`}  onClick={handleFlip}>
+    <div className={`flashcard ${cardFlipped ? "flipped" : ""}`}  onClick={handleFlip}>
     
       
        <div className=" flashcardFront">
