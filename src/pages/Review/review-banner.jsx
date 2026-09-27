@@ -1,6 +1,6 @@
 export const ReviewBanner = () => {
   return (
-    <div className="w-full  p-[20px] mt-[24px] gap-[40px] flex justify-between rounded-[20px] bg-green-600 overflow-hidden max-lg:flex-col items-center">
+    <div className="w-full  p-[20px] mt-[24px] gap-[40px] flex justify-between rounded-[20px] bg-[#008000] overflow-hidden max-lg:flex-col items-center">
       <div className="space-y-[10px]">
         <div>
           <p className="font-[800] text-[10px] text-[#a98dff]">

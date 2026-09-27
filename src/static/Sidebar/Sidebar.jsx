@@ -1,111 +1,94 @@
-import "./Sidebar.css"
-import { Link } from "react-router-dom";
-import {useState, useEffect} from "react"
-import { Menu } from "lucide-react";
-// import { SidebarOpen } from "lucide-react"
+import "./Sidebar.css";
+import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  BookOpenCheck,
+  ChartNoAxesCombined,
+  Flame,
+  House,
+  Menu,
+  PanelsTopLeft,
+  X,
+} from "lucide-react";
 
+const navigation = [
+  { to: "/dashboard", label: "Dashboard", Icon: House, end: true },
+  { to: "/Mydecks", label: "Mydecks", Icon: PanelsTopLeft },
+  { to: "/Review", label: "Review", Icon: BookOpenCheck },
+  { to: "/Statistics", label: "Statistics", Icon: ChartNoAxesCombined },
+];
 
-const Sidebar = ({isOpen, closeSidebar}) => {
-     const [sidebarOpen, setSidebarOpen] = useState(false)
-     const [streak, setStreak] = useState(0);
-     const getCurrentStreak = () => {
-  const savedActivity = localStorage.getItem("studyActivity");
+const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  if (!savedActivity) {
-    return 0;
-  }
+  useEffect(() => {
+    if (!isOpen) return undefined;
 
-  const activity = JSON.parse(savedActivity);
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setIsOpen(false);
+    };
 
-  if (activity.length === 0) {
-    return 0;
-  }
-
-  const dates = [...new Set(activity)].sort().reverse();
-
-  let currentStreak = 0;
-  let currentDate = new Date();
-
-  for (let i = 0; i < dates.length; i++) {
-    const dateString = currentDate.toISOString().split("T")[0];
-
-    if (dates[i] === dateString) {
-      currentStreak++;
-      currentDate.setDate(currentDate.getDate() - 1);
-    } else {
-      break;
-    }
-  }
-
-  return currentStreak;
-};
-
-useEffect(() => {
-  const updateStreak = () => {
-    setStreak(getCurrentStreak());
-  };
-
-  updateStreak();
-
-  window.addEventListener("focus", updateStreak);
-
-  return () => {
-    window.removeEventListener("focus", updateStreak);
-  };
-}, []);
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [isOpen]);
 
   return (
-    
-    
+    <>
+      <button
+        className="sidebarTrigger"
+        type="button"
+        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+        aria-expanded={isOpen}
+        aria-controls="app-sidebar"
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        {isOpen ? <X size={20} /> : <Menu size={20} />}
+      </button>
 
-    <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+      {isOpen && (
+        <button
+          className="sidebarBackdrop"
+          type="button"
+          aria-label="Close navigation menu"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-      
-         <button className="hamburger" onClick={() =>setSidebarOpen(!sidebarOpen)}>
-      <Menu />
-    </button>
-     {/* <Sidebar isOpen={sidebarOpen}
-        closeSidebar={()=> setSidebarOpen(false)}
-         />  */}
+      <aside
+        id="app-sidebar"
+        className={`sidebar ${isOpen ? "open" : ""}`}
+        aria-label="Main navigation"
+      >
+        <div className="sidebarLogo">
+          <img src="/recallicon2.jpeg" alt="recall logo" />
+        </div>
 
-      <div className="sidebarLogo">
-        <img src="/recallicon3.jpeg" alt="recall logo" />
-     
-      </div>
+        <nav className="sidebarNav">
+          {navigation.map(({ to, label, Icon, end }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={end}
+              className={({ isActive }) =>
+                `sidebarLink${isActive ? " active" : ""}`
+              }
+              onClick={() => setIsOpen(false)}
+            >
+              <Icon size={19} aria-hidden="true" />
+              <span>{label}</span>
+            </NavLink>
+          ))}
+        </nav>
 
-      <nav className="sidebarNav">
-        <Link to="/" className="sidebarLink">
-          🏠
-          <span>Dashboard</span>
-        </Link>
-
-        <Link to="/Mydecks" className="sidebarLink">
-          📊
-          <span>Mydecks</span>
-        </Link>
-
-        <Link to="/Review" className="sidebarLink">
-          📚
-          <span>Review</span>
-        </Link>
-
-        <Link to="/Statistics" className="sidebarLink">
-          ⚙️
-          <span>Statistics</span>
-        </Link>
-      </nav>
-
-      <div className="sidebarBottom">
-        <a href="#" className="sidebarLink">
-          
-         <span>🔥 {streak} Day streak</span>
-        </a>
-      </div>
-       
-      
-   
-    </aside>
+        <div className="sidebarBottom">
+          <div className="sidebarLink sidebarStatus">
+            <Flame size={19} aria-hidden="true" />
+            <span>Streak</span>
+          </div>
+        </div>
+      </aside>
+    </>
   );
-}
+};
 
 export default Sidebar;

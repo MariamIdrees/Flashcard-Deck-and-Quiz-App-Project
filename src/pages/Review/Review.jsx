@@ -34,7 +34,7 @@ const Review = () => {
 
   return (
     <>
-      {!review && (
+      {review === "0" && (
         <div className="review_page">
           <div className="Num1">
             <div className="Num2">
