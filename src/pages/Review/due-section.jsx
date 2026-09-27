@@ -1,22 +1,22 @@
 const due = [
   {
-    course: "JavaScript Fundamentals",
+    course: "Web Development",
   },
 
   {
-    course: "HTML & CSS",
+    course: "Food",
   },
 
   {
-    course: "French Vocabulary",
+    course: "Travels",
   },
 
   {
-    course: "React Basics",
+    course: "Hausa Language",
   },
 ];
 
-export const DueSection = ({ setReview = { setReview } }) => {
+export const DueSection = ({  setReview, setSelectedReviewDeck, decks,}) => {
   const colors = {
     pink: "  bg-[#7C5CFF] ",
     html: "bg-[#FF7A59] ",
@@ -55,12 +55,22 @@ export const DueSection = ({ setReview = { setReview } }) => {
                   4 of 4 cards due
                 </p>
               </div>
-              <button
-                onClick={() => setReview(true)}
-                className="font-[700] text-[12px] text-[#5f4bb0] border border-[#7C5CFF] p-[10px] rounded-[10px]"
-              >
-                Review
-              </button>
+                <button
+  type="button"
+  onClick={() => {
+    const selectedDeck = decks.find(
+      (deck) => deck.title === item.course
+    );
+
+    console.log("Selected deck:", selectedDeck);
+
+    setSelectedReviewDeck(selectedDeck);
+    setReview(true);
+  }}
+  className="font-[700] text-[12px] text-[#5f4bb0] border border-[#7C5CFF] p-[10px] rounded-[10px]"
+>
+  Review
+</button>
             </div>
           ))}
         </div>

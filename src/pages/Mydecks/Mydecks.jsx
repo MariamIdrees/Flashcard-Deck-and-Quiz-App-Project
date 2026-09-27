@@ -2,8 +2,13 @@ import "./Mydecks.css";
 import Flashcard from "../../components/reusable/flashcard/Flashcard";
 import decks from "./data/flashcard";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Mydecks = () => {
+  const location = useLocation();
+
+
+
   const [myDecks, setMyDecks] = useState(() => {
     const savedDecks = localStorage.getItem("myDecks");
 
@@ -89,6 +94,98 @@ const Mydecks = () => {
   useEffect(() => {
     localStorage.setItem("myDecks", JSON.stringify(myDecks));
   }, [myDecks]);
+
+  const recordStudySession = () => {
+  const today = new Date().toISOString().split("T")[0];
+
+  const savedActivity = localStorage.getItem("studyActivity");
+
+  const activity = savedActivity
+    ? JSON.parse(savedActivity)
+    : [];
+
+  if (!activity.includes(today)) {
+    activity.push(today);
+    localStorage.setItem("studyActivity", JSON.stringify(activity));
+  }
+};
+const getCurrentStreak = () => {
+  const savedActivity = localStorage.getItem("studyActivity");
+
+  if (!savedActivity) {
+    return 0;
+  }
+
+  const activity = JSON.parse(savedActivity);
+
+  if (activity.length === 0) {
+    return 0;
+  }
+
+  const dates = [...new Set(activity)].sort().reverse();
+
+  let streak = 0;
+  let currentDate = new Date();
+
+  for (let i = 0; i < dates.length; i++) {
+    const dateString = currentDate.toISOString().split("T")[0];
+
+    if (dates[i] === dateString) {
+      streak++;
+      currentDate.setDate(currentDate.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+
+  return streak;
+};
+const saveQuizResult = () => {
+  const quizResult = {
+    deckId: selectedDeck.id,
+    deckTitle: selectedDeck.title,
+    score: quizScore,
+    totalQuestions: selectedDeck.cards.length,
+    percentage: Math.round(
+      (quizScore / selectedDeck.cards.length) * 100
+    ),
+    date: new Date().toISOString(),
+  };
+
+  localStorage.setItem("lastQuizResult", JSON.stringify(quizResult));
+};
+
+   useEffect(() => {
+  if (location.state?.startQuiz && location.state?.deckId) {
+    const deckToQuiz = myDecks.find(
+      (deck) => deck.id === location.state.deckId
+    );
+
+    if (deckToQuiz) {
+      setSelectedDeck(deckToQuiz);
+      setIsQuiz(true);
+      setIsQuizCompleted(false);
+      setQuizCard(0);
+      setQuizScore(0);
+      setSelectedAnswer("");
+      setIsAnswerChecked(false);
+    }
+  }
+}, [location.state, myDecks]);
+
+useEffect(() => {
+  if (location.state?.deckId && !location.state?.startQuiz) {
+    const deckToOpen = myDecks.find(
+      (deck) => deck.id === location.state.deckId
+    );
+
+    if (deckToOpen) {
+      setSelectedDeck(deckToOpen);
+    }
+  }
+}, [location.state, myDecks]);
+
+
 
   return (
     <main>
@@ -247,18 +344,52 @@ const Mydecks = () => {
           <div className="deckList">
             {myDecks.map((deck) => (
               <div className="deckWrapper" key={deck.id}>
-                <div
-                  className="deckCard"
-                  onClick={() => {
-                    if (openMenu === deck.id) {
-                      setOpenMenu(null);
-                    } else {
-                      setSelectedDeck(deck);
-                    }
-                  }}
-                >
-                  <h1>{deck.title}</h1>
-                </div>
+               <div
+  className="deckCard"
+  onClick={() => {
+    if (openMenu === deck.id) {
+      setOpenMenu(null);
+    } else {
+      setSelectedDeck(deck);
+    }
+  }}
+>
+  <h1>{deck.title}</h1>
+
+  <div className="deckActions">
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        setSelectedDeck(deck);
+        setCurrentCard(0);
+        setIsQuiz(false);
+        setIsQuizCompleted(false);
+        setQuizCard(0);
+        setQuizScore(0);
+        setSelectedAnswer("");
+        setIsAnswerChecked(false);
+      }}
+    >
+      Study Deck
+    </button>
+
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        setSelectedDeck(deck);
+        setCurrentCard(0);
+        setIsQuiz(true);
+        setIsQuizCompleted(false);
+        setQuizCard(0);
+        setQuizScore(0);
+        setSelectedAnswer("");
+        setIsAnswerChecked(false);
+      }}
+    >
+      Take Quiz
+    </button>
+  </div>
+</div>
 
                 {!deck.isDefault && (
                   <button
@@ -312,47 +443,71 @@ const Mydecks = () => {
             <>
               {isQuiz ? (
                 isQuizCompleted ? (
-                  <div className="quizCompleted">
-                    <h2>Quiz Completed! 🎉</h2>
+                 <div className="quizSessionComplete">
 
-                    <p>
-                      Your score: {quizScore}/{selectedDeck.cards.length}
-                    </p>
-                    <div className="quizCompletedButtons">
-                      <button
-                        onClick={() => {
-                          setSelectedDeck(null);
-                          setIsQuiz(false);
-                          setIsQuizCompleted(false);
-                          setQuizCard(0);
-                          setQuizScore(0);
-                          setSelectedAnswer("");
-                          setIsAnswerChecked(false);
-                        }}
-                      >
-                        Back to Decks
-                      </button>
+  <h2>Session complete</h2>
 
-                      <button
-                        onClick={() => {
-                          setQuizCard(0);
-                          setQuizScore(0);
-                          setSelectedAnswer("");
-                          setIsAnswerChecked(false);
-                          setIsQuizCompleted(false);
-                        }}
-                      >
-                        Take Quiz Again
-                      </button>
-                    </div>
-                  </div>
+  <div className="sessionCheck">
+    ✓
+  </div>
+
+  <h3>Great work!</h3>
+
+  <p className="sessionMessage">
+    You completed your quiz session.
+  </p>
+
+  <div className="sessionScore">
+    {Math.round(
+      (quizScore / selectedDeck.cards.length) * 100
+    )}
+    <span>%</span>
+  </div>
+
+  <div className="sessionStats">
+
+    <div className="sessionStat">
+      <strong>{selectedDeck.cards.length}</strong>
+      <span>questions</span>
+    </div>
+
+    <div className="sessionStat">
+      <strong>
+        {selectedDeck.cards.length - quizScore}
+      </strong>
+      <span>incorrect</span>
+    </div>
+
+    <div className="sessionStat">
+      <strong>{getCurrentStreak()}</strong>
+      <span>Day streak</span>
+    </div>
+
+  </div>
+
+  <button
+    className="sessionCompleteButton"
+    onClick={() => {
+      setSelectedDeck(null);
+      setIsQuiz(false);
+      setIsQuizCompleted(false);
+      setQuizCard(0);
+      setQuizScore(0);
+      setSelectedAnswer("");
+      setIsAnswerChecked(false);
+    }}
+  >
+    Back to Decks
+  </button>
+
+</div>
                 ) : (
                   <main className="quizContainer">
-                    <h2>Quiz</h2>
-                    <p>
-                      {" "}
-                      Score: {quizScore}/{selectedDeck.cards.length}{" "}
-                    </p>
+                      <div className="quizHeader">
+                           <h2>Quiz</h2>
+                         <span>{quizCard + 1}/{selectedDeck.cards.length} </span>
+                         </div>
+                        <p> Score: {quizScore}/{selectedDeck.cards.length}</p>
                     <h3> {selectedDeck.cards[quizCard].question} </h3>
 
                     <section className="quizOptions">
@@ -413,12 +568,35 @@ const Mydecks = () => {
 
                       {isAnswerChecked &&
                         quizCard === selectedDeck.cards.length - 1 && (
-                          <button
-                            type="button"
-                            onClick={() => setIsQuizCompleted(true)}
-                          >
-                            Quiz Completed
-                          </button>
+                             <button
+      type="button"
+      onClick={() => {
+        const finalScore =
+          quizScore +
+          (selectedAnswer === selectedDeck.cards[quizCard].answer ? 1 : 0);
+
+        const quizResult = {
+          deckId: selectedDeck.id,
+          deckTitle: selectedDeck.title,
+          score: finalScore,
+          totalQuestions: selectedDeck.cards.length,
+          percentage: Math.round(
+            (finalScore / selectedDeck.cards.length) * 100
+          ),
+          date: new Date().toISOString(),
+        };
+
+        localStorage.setItem(
+          "lastQuizResult",
+          JSON.stringify(quizResult)
+        );
+
+        recordStudySession();
+        setIsQuizCompleted(true);
+      }}
+    >
+      Quiz Completed
+    </button>
                         )}
                     </section>
                   </main>
@@ -539,11 +717,12 @@ const Mydecks = () => {
                       <div className="flashcardButtons">
                         <button
                           onClick={() => {
-                            if (currentCard === selectedDeck.cards.length - 1) {
-                              setIsQuiz(true);
-                            } else {
+                           if (currentCard === selectedDeck.cards.length - 1) {
+                             recordStudySession();
+                             setIsQuiz(true);
+                              } else {
                               setCurrentCard(currentCard + 1);
-                            }
+                              }
                           }}
                         >
                           {currentCard === selectedDeck.cards.length - 1

@@ -1,13 +1,58 @@
 import "./Sidebar.css"
 import { Link } from "react-router-dom";
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import { Menu } from "lucide-react";
 // import { SidebarOpen } from "lucide-react"
 
 
 const Sidebar = ({isOpen, closeSidebar}) => {
      const [sidebarOpen, setSidebarOpen] = useState(false)
+     const [streak, setStreak] = useState(0);
+     const getCurrentStreak = () => {
+  const savedActivity = localStorage.getItem("studyActivity");
 
+  if (!savedActivity) {
+    return 0;
+  }
+
+  const activity = JSON.parse(savedActivity);
+
+  if (activity.length === 0) {
+    return 0;
+  }
+
+  const dates = [...new Set(activity)].sort().reverse();
+
+  let currentStreak = 0;
+  let currentDate = new Date();
+
+  for (let i = 0; i < dates.length; i++) {
+    const dateString = currentDate.toISOString().split("T")[0];
+
+    if (dates[i] === dateString) {
+      currentStreak++;
+      currentDate.setDate(currentDate.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+
+  return currentStreak;
+};
+
+useEffect(() => {
+  const updateStreak = () => {
+    setStreak(getCurrentStreak());
+  };
+
+  updateStreak();
+
+  window.addEventListener("focus", updateStreak);
+
+  return () => {
+    window.removeEventListener("focus", updateStreak);
+  };
+}, []);
 
   return (
     
@@ -24,7 +69,7 @@ const Sidebar = ({isOpen, closeSidebar}) => {
          />  */}
 
       <div className="sidebarLogo">
-        <img src="/recallicon2.jpeg" alt="recall logo" />
+        <img src="/recallicon3.jpeg" alt="recall logo" />
      
       </div>
 
@@ -52,8 +97,8 @@ const Sidebar = ({isOpen, closeSidebar}) => {
 
       <div className="sidebarBottom">
         <a href="#" className="sidebarLink">
-          🚪
-          <span>Streak</span>
+          
+         <span>🔥 {streak} Day streak</span>
         </a>
       </div>
        
