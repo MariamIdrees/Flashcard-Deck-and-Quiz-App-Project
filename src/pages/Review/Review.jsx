@@ -1,14 +1,16 @@
 import { useState } from "react";
-import decks from "../Mydecks/data/flashcard";
 import { DueSection } from "./due-section";
 import { ReviewBanner } from "./review-banner";
 import "./Review.css";
 import { WebDev } from "./web-dev";
+import { Food } from "./food";
+import { Travels } from "./travels";
+import { Hausa } from "./hausa";
 
 // const [myDecks, setMyDecks] = useState(decks);
 
 const Review = () => {
-  const [review, setReview] = useState(false);
+  const [review, setReview] = useState("0");
 
   const statCard = [
     {
@@ -34,7 +36,7 @@ const Review = () => {
 
   return (
     <>
-      {!review && (
+      {review === "0" && (
         <div className="review_page">
           <div className="Num1">
             <div className="Num2">
@@ -58,7 +60,10 @@ const Review = () => {
         </div>
       )}
 
-      {review && <WebDev />}
+      {review === "web" && <WebDev onEnd={() => setReview("0")} />}
+      {review === "food" && <Food onEnd={() => setReview("0")} />}
+      {review === "travels" && <Travels onEnd={() => setReview("0")} />}
+      {review === "hausa" && <Hausa onEnd={() => setReview("0")} />}
     </>
   );
 };
