@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { supabase } from "../../supabaseClient";
 
 const Register = () => {
   const [showEmailForm, setShowEmailForm] = useState(false);
@@ -7,9 +8,10 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     
     if (!name.trim()) {
@@ -23,23 +25,44 @@ const Register = () => {
       return;
     }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
+    // New strong password requirement added here
+    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
+    if (!strongPasswordRegex.test(password)) {
+      setError("Password must contain at least 6 characters, including uppercase and lowercase letters, a number, and a symbol.");
       return;
     }
 
     setError("");
-    console.log("Registering:", name, email, password);
-    navigate("/Mydecks"); 
+    setLoading(true);
+
+    const { data, error: signUpError } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          full_name: name,
+        }
+      }
+    });
+
+    setLoading(false);
+
+    if (signUpError) {
+      setError(signUpError.message);
+      return;
+    }
+
+    console.log("User created:", data);
+    navigate("/dashboard"); 
   };
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] flex flex-col items-center justify-center p-6 font-sans text-gray-800">
-      <div className="w-full max-w-[400px] mx-auto text-center">
+      <div className="w-full max-w-100 mx-auto text-center">
         
         {/* Logo */}
         <Link to="/" className="inline-block mb-8">
-          <img src="/recallicon6.jpeg" alt="Recall" className="h-10 mx-auto object-contain" />
+          <img src="/recallicon3.jpeg" alt="Recall" className="h-10 mx-auto object-contain" />
         </Link>
 
         {/* Headings */}
@@ -72,9 +95,9 @@ const Register = () => {
 
         {/* Divider */}
         <div className="flex items-center my-8">
-          <div className="flex-grow border-t border-gray-300"></div>
+          <div className="grow border-t border-gray-300"></div>
           <span className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">OR</span>
-          <div className="flex-grow border-t border-gray-300"></div>
+          <div className="grow border-t border-gray-300"></div>
         </div>
 
         {/* Dynamic Email Section */}
@@ -101,6 +124,7 @@ const Register = () => {
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 outline-none transition text-sm"
                 placeholder="Full Name"
+                disabled={loading}
               />
             </div>
 
@@ -112,6 +136,7 @@ const Register = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 outline-none transition text-sm"
                 placeholder="Email Address"
+                disabled={loading}
               />
             </div>
 
@@ -123,14 +148,18 @@ const Register = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 outline-none transition text-sm"
                 placeholder="Password (min 6 characters)"
+                disabled={loading}
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-[#10a342] text-white rounded-full py-3.5 text-xs font-bold tracking-widest hover:bg-green-700 transition shadow-md mt-2"
+              disabled={loading}
+              className={`w-full text-white rounded-full py-3.5 text-xs font-bold tracking-widest transition shadow-md mt-2 ${
+                loading ? "bg-green-400 cursor-not-allowed" : "bg-[#10a342] hover:bg-green-700"
+              }`}
             >
-              CREATE ACCOUNT
+              {loading ? "CREATING ACCOUNT..." : "CREATE ACCOUNT"}
             </button>
           </form>
         )}

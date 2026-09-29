@@ -1,31 +1,48 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { supabase } from "../../supabaseClient"; 
 
 const LoginModal = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   if (!isOpen) return null;
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     
     const strictEmailRegex = /^[^\s@]+@[^\s@]+\.(com|net|org|edu|gov|co|io)$/i;
+
+    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
     
     if (!strictEmailRegex.test(email)) {
-      setError("Please enter a valid email address (e.g., ending in .com or .org).");
+      setError("Please enter a valid email address.");
       return;
     }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
+    if (!strongPasswordRegex.test(password)) {
+      setError("Password must contain at least 6 characters, including uppercase and lowercase letters, a number, and a symbol.");
       return;
     }
 
     setError("");
-    console.log("Logging in:", email, password);
+    setLoading(true);
+
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    setLoading(false);
+
+    if (signInError) {
+      setError("Invalid email or password. Please try again.");
+      return;
+    }
+
     onClose(); 
     navigate("/dashboard"); 
   };
@@ -58,7 +75,7 @@ const LoginModal = ({ isOpen, onClose }) => {
             className="absolute inset-0 w-full h-full object-cover"
           />
           
-          <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-linear-to-t from-black/70 to-transparent"></div>
           
           <div className="absolute bottom-10 left-10 text-white p-4 z-10">
             <h3 className="text-3xl font-semibold mb-2" style={{ fontFamily: '"Space Grotesk", sans-serif' }}>
@@ -97,6 +114,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-600 outline-none transition"
                 placeholder="name@example.com"
+                disabled={loading}
               />
             </div>
 
@@ -114,6 +132,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-600 outline-none transition"
                 placeholder="••••••••"
+                disabled={loading}
               />
               
               <div className="flex justify-end mt-2">
@@ -132,9 +151,12 @@ const LoginModal = ({ isOpen, onClose }) => {
 
             <button
               type="submit"
-              className="w-full bg-[#10a342] text-white font-medium py-3.5 rounded-full hover:bg-green-700 transition mt-6 cursor-pointer"
+              disabled={loading}
+              className={`w-full text-white font-medium py-3.5 rounded-full transition mt-6 cursor-pointer ${
+                loading ? "bg-green-400 cursor-not-allowed" : "bg-[#10a342] hover:bg-green-700"
+              }`}
             >
-              Log In
+              {loading ? "Logging In..." : "Log In"}
             </button>
 
             <p className="text-center text-sm text-gray-600 mt-6">
