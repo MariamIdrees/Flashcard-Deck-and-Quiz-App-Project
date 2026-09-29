@@ -11,6 +11,8 @@ import Mydecks from "./pages/Mydecks/Mydecks";
 import Review from "./pages/Review/Review";
 import Statistics from "./pages/Statistics/Statistics";
 import Landing from "./pages/Landing/Landing";
+import Register from "./pages/Register/Register";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 
 const WorkspaceLayout = () => (
   <div className="dashboardContainer">
@@ -30,6 +32,8 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route element={<WorkspaceLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Mydecks" element={<Mydecks />} />
