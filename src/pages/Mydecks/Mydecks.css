@@ -84,7 +84,7 @@
 }
 
 .deckCard {
-     display: flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -95,7 +95,7 @@
   padding: 20px;
   cursor: pointer;
   position: relative;
-  background-color: white;
+  background-color: skyblue;
   border: 1px solid #ddd;
 }
 
@@ -418,25 +418,72 @@
 }
 
 @media (max-width:500px) {
+ 
+
+  .allDecks{
+    /* background-color: slateblue; */
+    margin-top: 20px;
+  
+    h1{
+        font-size: 30px;
+        font-weight: bold;
+
+    }
+  }
+  .deckButton{
+    display: flex;
+    justify-content: space-between;
+    width: 75vw;
+  }
+
+
     .deckList {
+      display: grid;
         grid-template-columns: 1fr;
         gap: 30px;
     }
 
     .deckCard {
+      background-color: coral;
         width: 90vw;
         height: 200px;
     }
 
     .deckWrapper {
-        width: 90vw;
+      margin: auto;
+        width: 70vw;
         height: 200px;
     }
 
-   
+}
 
-    .deckButton{
-        width: 90vw;
+
+
+@media (max-width:764px) {
+    .deckList {
+      display: grid;
+        grid-template-columns: 1fr ;
+        gap: 50px;
+    }
+
+      .deckButton{
+    /* background-color: red; */
+    display: flex;
+    justify-content: space-between;
+    width: 90vw;
+  }
+
+
+
+    .deckCard {
+      background-color:orange; ;
+        width: 40vw;
+        height: 200px;
+    }
+
+    .deckWrapper {
+      margin: auto;
+     
     }
     
-}
+} 

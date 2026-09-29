@@ -107,7 +107,9 @@ const Mydecks = () => {
   if (!activity.includes(today)) {
     activity.push(today);
     localStorage.setItem("studyActivity", JSON.stringify(activity));
+    window.dispatchEvent(new Event("studyActivityUpdated"));
   }
+  
 };
 const getCurrentStreak = () => {
   const savedActivity = localStorage.getItem("studyActivity");
@@ -155,26 +157,10 @@ const saveQuizResult = () => {
   localStorage.setItem("lastQuizResult", JSON.stringify(quizResult));
 };
 
-   useEffect(() => {
-  if (location.state?.startQuiz && location.state?.deckId) {
-    const deckToQuiz = myDecks.find(
-      (deck) => deck.id === location.state.deckId
-    );
-
-    if (deckToQuiz) {
-      setSelectedDeck(deckToQuiz);
-      setIsQuiz(true);
-      setIsQuizCompleted(false);
-      setQuizCard(0);
-      setQuizScore(0);
-      setSelectedAnswer("");
-      setIsAnswerChecked(false);
-    }
-  }
-}, [location.state, myDecks]);
+ 
 
 useEffect(() => {
-  if (location.state?.deckId && !location.state?.startQuiz) {
+ if (location.state?.deckId)  {
     const deckToOpen = myDecks.find(
       (deck) => deck.id === location.state.deckId
     );
@@ -200,8 +186,8 @@ useEffect(() => {
         <div className="allDecks">
           <h1>All your decks</h1>
           <span className="deckp">
-            {" "}
-            <p>{"4"} decks</p> <p>{"40"} cards</p>{" "}
+         
+            <p>{myDecks.length} Decks</p> <p>{myDecks.reduce((total, deck) => total + deck.cards.length, 0)} Flashcards</p>
           </span>
         </div>
 

@@ -64,16 +64,17 @@ const decks = [
       },
       {
         id: 6,
-        question: "What is Back-end development?",
+        question: "What is the difference between == and ===?",
         answer:
-          "Back-end development handles the server, database, APIs and logic that operate behind the scenes",
+          "The == operator compares values after type coercion, while the === operator compares values without type coercion",
         options: [
-          "Back-end development focuses on the part of a website or app that users see and interact with",
-          "Back-end development handles the server, database, APIs and logic that operate behind the scenes",
-          "Back-end development is responsible for the overall architecture of a web application",
-          "Back-end development involves creating the user interface and user experience of a website or app",
+          "The == operator compares values after type coercion, while the === operator compares values without type coercion",
+          "The == operator compares values without type coercion, while the === operator compares values after type coercion",
+          "Both operators compare values in the same way",
+          "The == operator is used for string comparison, while the === operator is used for numeric comparison",
         ],
       },
+       
       {
         id: 7,
         question: "What is Javascript",

@@ -10,6 +10,10 @@
     
 } */
 
+.dashboardIcon{
+  display: none;
+}
+
 .dashboardHeader {
   display: flex;
   justify-content: space-between;
@@ -75,7 +79,7 @@
 }
 
 .bigcardContainer {
-  width: 950px;
+  width: 100%;
   height: 300px;
   border-radius: 20px;
   background-color: green;
@@ -86,6 +90,7 @@
   display: flex;
   color: white;
   padding: 30px 30px;
+ 
 }
 
 .bigcardFirstcard {
@@ -94,30 +99,20 @@
   align-items: center;
   flex-direction: column;
   margin-left: 20px;
+  text-align: center;
 
   h5 {
-    padding-right: 350px;
     color: limegreen;
     font-size: 12px;
+   
   }
   h4 {
-    padding-right: 200px;
+   
     font-size: 25px;
     font-weight: bold;
-    width: 36vw;
     padding-left: 20px;
   }
 
-  p {
-    width: 33vw;
-  }
-
-  /* button{
-    padding: 10px 20px;
-    background-color: #6545db;
-    border-radius: 20px;
-    margin-right: 300px;
- } */
 }
 
 .bigcardSecondcard {
@@ -148,9 +143,9 @@
   font-size: 10px;
   align-content: center;
   padding: 10px;
-  top: 60px;
-  left: 80px;
-  transform: rotate(-5deg);
+  /* top: 60px; */
+  /* left: 80px; */
+  transform: rotate(-9deg);
 }
 
 .functionCard {
@@ -163,7 +158,7 @@
   padding: 10px;
   bottom: 80px;
   left: 40px;
-  transform: rotate(2deg);
+  transform: rotate(15deg);
   z-index: 3;
 }
 
@@ -304,11 +299,28 @@
   cursor: pointer;
 }
 
+
+
+
+
+
+
 @media (max-width: 500px) {
   .dashboardContainer {
     text-align: center;
 
     background-color: #f7f7fb;
+  }
+
+  .dashboardIcon {
+    display: block;
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+   
+    
   }
   .dashboard {
     text-align: center;
@@ -322,7 +334,7 @@
   }
 
   .dashboardText {
-    background-color: saddlebrown;
+   
     p {
       text-align: center;
     }
@@ -334,10 +346,9 @@
     flex-wrap: wrap;
     justify-content: center;
     margin: 10px 30px;
+  
   }
   .bigcardContainer {
-    background-color: red;
-    /* max-width: 450px; */
     height: 300px;
     width: 90%;
   }
@@ -353,28 +364,16 @@
     margin-left: 20px;
 
     h5 {
-      color: #6545db;
+      color: #008000;
       font-size: 12px;
     }
     h4 {
-      /* padding-right: 200px; */
       font-size: 15px;
       font-weight: bold;
       text-align: center;
-      /* width: 36vw;
-    padding-left: 20px; */
+    
     }
 
-    p {
-      width: 33vw;
-    }
-
-    button {
-      padding: 10px 15px;
-      background-color: #6545db;
-      border-radius: 20px;
-      /* margin-right: 300px; */
-    }
   }
 
   .dashboardDeck {
@@ -383,35 +382,62 @@
 }
 
 @media (max-width: 764px) {
-  .smallcard {
-    background-color: #6545db;
 
-    /* margin-left: 10px;
-    margin-right: 10px;
-    max-width: 300px; */
+  .dashboardIcon {
+    display: block;
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+   
+    
   }
+
+  .dashboardText {
+    p {
+      font-size: 12px;
+      text-align: center;
+    }
+  }
+ 
   .smallcardContainer {
-    background-color: seagreen;
+    /* background-color: seagreen; */
     display: flex;
     justify-content: center;
     gap: 20px;
     align-items: center;
+   
   }
   .bigcardContainer {
-    background-color: palevioletred;
+    width: 100%;
+    height: 300px;
   }
   .bigcardFirstcard {
-    background-color: green;
+    /* background-color: green; */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin: 0px;
-    padding: 0%;
     max-width: 90%;
+    
     h4 {
       text-align: center;
-      font-size: 5px;
+      font-size: 30px;
+     
     }
+    h5 {
+      text-align: center; 
+      font-size: 20px;
+    }
+
+    p{
+      text-align: center;
+      margin-top: 15px;
+    }
+  }
+
+  .bigcardSecondcard {
+    display: none;
   }
 }
