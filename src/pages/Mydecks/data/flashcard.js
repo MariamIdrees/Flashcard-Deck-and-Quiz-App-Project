@@ -7,6 +7,17 @@ const decks = [
     cards: [
       {
         id: 1,
+        question: "what is HTML used for?",
+        answer: "It is used to structure web pages",
+        options: [
+          "it is used for styling web pages ",
+          "It is used to structure web pages",
+          "It is used to add interactivity to web pages",
+          "it is used to store data in web pages",
+        ],
+      },
+      {
+         id: 2,
         question: "what is a variable?",
         answer:
           "A variable is a stored container used to store a value that a program can use",
@@ -15,17 +26,6 @@ const decks = [
           "A variable is a stored container used to store a value that a program can use",
           "A variable is a property used for styling",
           "A variable is a value where data are stored around ",
-        ],
-      },
-      {
-        id: 2,
-        question: "what is HTML used for?",
-        answer: "It is used to structure web pages",
-        options: [
-          "it is used for styling web pages ",
-          "It is used to structure web pages",
-          "It is used to add interactivity to web pages",
-          "it is used to store data in web pages",
         ],
       },
       {
@@ -64,14 +64,14 @@ const decks = [
       },
       {
         id: 6,
-        question: "What is the difference between == and ===?",
+        question: "What is the primitive data types in Javascript?",
         answer:
-          "The == operator compares values after type coercion, while the === operator compares values without type coercion",
+          "String, Number, BigInt, Boolean, undefined, null and symbol",
         options: [
-          "The == operator compares values after type coercion, while the === operator compares values without type coercion",
-          "The == operator compares values without type coercion, while the === operator compares values after type coercion",
-          "Both operators compare values in the same way",
-          "The == operator is used for string comparison, while the === operator is used for numeric comparison",
+          "value, string, key, Number, and string",
+          "String, Number, BigInt, Boolean, undefined, null and symbol",
+          "String, array, Boolean, variable and null",
+          "String, Number, value and array"
         ],
       },
        

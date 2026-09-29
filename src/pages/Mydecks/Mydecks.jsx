@@ -4,6 +4,8 @@ import decks from "./data/flashcard";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+
+const mainDeckIds = [1, 2, 3, 4];
 const Mydecks = () => {
   const location = useLocation();
 
@@ -191,24 +193,54 @@ useEffect(() => {
           </span>
         </div>
 
-        {/* <div className="searchDeck">
-            <div className="searchbigDeck">
-
-            </div>
-
-            <div className="findDeck">
-
-            </div>
-
-         
-          
-        </div> */}
+  
 
         {isCreatingDeck && (
-          <div className="createDeckForm">
-            <h2>Create New Deck</h2>
+        <div className="createDeckForm">
+              <div className="createDeckHeader">
+             <h2>Create New Deck</h2>
 
-            <label>Deck Title</label>
+                 <div className="createDeckActions">
+                              <button
+              onClick={() => {
+                setNewCards([
+                  ...newCards,
+                  {
+                    question: newQuestion,
+                    answer: newAnswer,
+                  },
+                ]);
+
+                setNewQuestion("");
+                setNewAnswer("");
+              }}
+            >
+              + Add Card
+            </button>
+
+             <button
+              onClick={() => {
+                const newDeck = {
+                  id: Date.now(),
+                  title: newDeckTitle,
+                  cards: newCards,
+                };
+
+                setMyDecks([...myDecks, newDeck]);
+                setIsCreatingDeck(false);
+                setNewDeckTitle("");
+                setNewCards([]);
+
+                setMyDecks([...myDecks, newDeck]);
+              }}
+            >
+              Create Deck
+            </button>
+                  
+                   </div>
+                     </div>
+
+                        <label>Deck Title</label>
 
             <input
               type="text"
@@ -232,41 +264,9 @@ useEffect(() => {
               value={newAnswer}
               onChange={(e) => setNewAnswer(e.target.value)}
             ></textarea>
-            <button
-              onClick={() => {
-                setNewCards([
-                  ...newCards,
-                  {
-                    question: newQuestion,
-                    answer: newAnswer,
-                  },
-                ]);
+          
 
-                setNewQuestion("");
-                setNewAnswer("");
-              }}
-            >
-              + Add Card
-            </button>
-
-            <button
-              onClick={() => {
-                const newDeck = {
-                  id: Date.now(),
-                  title: newDeckTitle,
-                  cards: newCards,
-                };
-
-                setMyDecks([...myDecks, newDeck]);
-                setIsCreatingDeck(false);
-                setNewDeckTitle("");
-                setNewCards([]);
-
-                setMyDecks([...myDecks, newDeck]);
-              }}
-            >
-              Create Deck
-            </button>
+           
 
             {newCards.length > 0 && (
               <div className="newCardsList">
@@ -540,7 +540,7 @@ useEffect(() => {
 
                       {isAnswerChecked &&
                         quizCard < selectedDeck.cards.length - 1 && (
-                          <button
+                          <button 
                             type="button"
                             onClick={() => {
                               setQuizCard(quizCard + 1);
@@ -694,14 +694,13 @@ useEffect(() => {
                     </div>
                   ) : (
                     <>
+                    <div className="flashcardWithNext">
                       <Flashcard
                         key={currentCard}
                         question={selectedDeck.cards[currentCard].question}
                         answer={selectedDeck.cards[currentCard].answer}
                       />
-
-                      <div className="flashcardButtons">
-                        <button
+                      <button className="nextCardButton"
                           onClick={() => {
                            if (currentCard === selectedDeck.cards.length - 1) {
                              recordStudySession();
@@ -712,11 +711,16 @@ useEffect(() => {
                           }}
                         >
                           {currentCard === selectedDeck.cards.length - 1
-                            ? "Finish"
-                            : "Next"}
+                             ? "Finish ✓"
+                                : <span>Next&nbsp;→</span>
+}
                         </button>
+                        </div>
 
-                        <button
+                      <div className="flashcardButtons">
+                        
+
+                        <button className="backDeckButton"
                           onClick={() => {
                             setSelectedDeck(null);
                             setCurrentCard(0);
@@ -724,8 +728,10 @@ useEffect(() => {
                         >
                           Back to Decks
                         </button>
+   
 
-                        <button
+                        {!mainDeckIds.includes(selectedDeck.id) && (
+                        <button className="editCardButton"
                           onClick={() => {
                             setEditedQuestion(
                               selectedDeck.cards[currentCard].question,
@@ -738,12 +744,18 @@ useEffect(() => {
                         >
                           Edit Card
                         </button>
+                        )}
 
-                        <button onClick={() => setIsAddingCard(true)}>
-                          + Add Card
-                        </button>
+                       {!mainDeckIds.includes(selectedDeck.id) && (
+                            <button
+                              className="addCardButton"
+                               onClick={() => setIsAddingCard(true)} >
+                                 + Add Card
+                                </button>
+                                  )}
 
-                        <button
+                         {!mainDeckIds.includes(selectedDeck.id) && (
+                        <button className="deleteCardButton"
                           onClick={() => {
                             const updatedCards = selectedDeck.cards.filter(
                               (_, index) => index !== currentCard,
@@ -773,6 +785,7 @@ useEffect(() => {
                         >
                           Delete Card
                         </button>
+                        )}
                       </div>
                     </>
                   )}

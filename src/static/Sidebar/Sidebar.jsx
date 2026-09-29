@@ -22,38 +22,48 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [streak, setStreak] = useState(0);
 
-  useEffect(() => {
-  const savedActivity = localStorage.getItem("studyActivity");
+useEffect(() => {
+  const updateStreak = () => {
+    const savedActivity = localStorage.getItem("studyActivity");
 
-  if (!savedActivity) {
-    setStreak(0);
-    return;
-  }
-
-  const activity = JSON.parse(savedActivity);
-
-  if (activity.length === 0) {
-    setStreak(0);
-    return;
-  }
-
-  const dates = [...new Set(activity)].sort().reverse();
-
-  let currentStreak = 0;
-  let currentDate = new Date();
-
-  for (let i = 0; i < dates.length; i++) {
-    const dateString = currentDate.toISOString().split("T")[0];
-
-    if (dates[i] === dateString) {
-      currentStreak++;
-      currentDate.setDate(currentDate.getDate() - 1);
-    } else {
-      break;
+    if (!savedActivity) {
+      setStreak(0);
+      return;
     }
-  }
 
-  setStreak(currentStreak);
+    const activity = JSON.parse(savedActivity);
+
+    if (activity.length === 0) {
+      setStreak(0);
+      return;
+    }
+
+    const dates = [...new Set(activity)].sort().reverse();
+
+    let currentStreak = 0;
+    let currentDate = new Date();
+
+    for (let i = 0; i < dates.length; i++) {
+      const dateString = currentDate.toISOString().split("T")[0];
+
+      if (dates[i] === dateString) {
+        currentStreak++;
+        currentDate.setDate(currentDate.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+
+    setStreak(currentStreak);
+  };
+
+  updateStreak();
+
+  window.addEventListener("studyActivityUpdated", updateStreak);
+
+  return () => {
+    window.removeEventListener("studyActivityUpdated", updateStreak);
+  };
 }, []);
 
   useEffect(() => {
