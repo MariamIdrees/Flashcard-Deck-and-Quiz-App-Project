@@ -1,6 +1,66 @@
-// import React from 'react'
+import { useState } from "react";
+
+const getStoredValue = (key, fallback) => {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  } catch {
+    return fallback;
+  }
+};
 
 const Statistics = () => {
+  const [lastQuiz] = useState(() => getStoredValue("lastQuizResult", null));
+  const [myDecks] = useState(() => getStoredValue("myDecks", []));
+  const [studyActivity] = useState(() => getStoredValue("studyActivity", []));
+
+    const getStudyDay = (dayName) => {
+    const today = new Date();
+    const days = {
+    Sun: 0,
+    Mon: 1,
+    Tue: 2,
+    Wed: 3,
+    Thur: 4,
+    Fri: 5,
+    Sat: 6,
+    };
+    const todayDay = today.getDay();
+    const targetDay = days[dayName];
+    const difference = targetDay - todayDay;
+    const date = new Date(today);
+    date.setDate(today.getDate() + difference);
+    const dateString = date.toISOString().split("T")[0];
+    return studyActivity.includes(dateString);
+    };
+
+    const getDeckMastery = (deck) => {
+    if (!lastQuiz) return 0;
+    if (lastQuiz.deckId === deck.id) {
+    return lastQuiz.percentage;
+    }
+    return 0;
+    };
+
+    const getCurrentStreak = () => {
+    if (studyActivity.length === 0) return 0;
+    const dates = [...new Set(studyActivity)].sort().reverse();
+    let streak = 0;
+    let currentDate = new Date();
+    for (let i = 0; i < dates.length; i++) {
+      const dateString = currentDate.toISOString().split("T")[0];
+      if (dates[i] === dateString) {
+        streak++;
+        currentDate.setDate(currentDate.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+    return streak;
+    };
+
+
+
   return (
     <div className="min-h-screen flex flex-col gap-10">
         
@@ -15,12 +75,12 @@ const Statistics = () => {
 {/* Small Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
 
-          <div className="h-24 w-full rounded-[20px] bg-white     flex flex-col items-center justify-center ">
-            <h1 className="text-[20px] font-bold"> 0% </h1>
+          <div className="h-24 w-full rounded-[20px] flex flex-col items-center justify-center bg-white">
+            <h1 className="text-[20px] font-bold">  {lastQuiz ? `${lastQuiz.percentage}%` : "0%"} </h1>
             <p className="text-[13px] text-gray-400"> Average quiz score </p>
           </div>
 
-          <div className="h-24 w-full rounded-[20px] bg-white     flex flex-col items-center justify-center ">
+          <div className="h-24 w-full rounded-[20px] bg-white flex flex-col items-center justify-center ">
             <h1 className="text-[20px] font-bold"> 0 </h1>
             <p className="text-[13px] text-gray-400"> Cards mastered </p>
           </div>
@@ -31,7 +91,7 @@ const Statistics = () => {
           </div>
 
           <div className="h-24 w-full rounded-[20px] bg-white     flex flex-col items-center justify-center ">
-            <h1 className="text-[20px] font-bold"> 0 </h1>
+            <h1 className="text-[20px] font-bold"> {getCurrentStreak()} </h1>
             <p className="text-[13px] text-gray-400"> Day streak </p>
           </div>
         </div>
@@ -48,23 +108,28 @@ const Statistics = () => {
                 <p className="text-[13px] text-[#000000]mt-0.5"> How far your cards have progressed. </p>
               </div>
               <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center">
-                0%
+                {lastQuiz ? `${lastQuiz.percentage}%` : "0%"}
               </div>
             </div>
 
             <div className="w-full h-3 bg-[#f0edff] rounded-full my-4">
-              <div className="h-full bg-[#F0F1F5] rounded-full w-full"></div>
+              <div
+                className="h-full bg-[#F0F1F5] rounded-full"
+                style={{
+                  width: lastQuiz ? `${lastQuiz.percentage}%` : "0%"
+                }}
+              ></div>
             </div>
 
             <div className="flex gap-4 text-[13px] text-black mt-0.5">
               <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              0 attempts
+              0 mastered
               </div>
               <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              0 attempts
+              0 learning
               </div>
               <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              0 attempts
+              0 new
               </div>
             </div>
 
@@ -72,74 +137,133 @@ const Statistics = () => {
 
 {/* card 2 */}
           <div className="w-full h-70 rounded-3xl bg-[#7C5CFF] p-5 sm:p-6 shadow-sm border border-gray-50 flex flex-col gap-6 justify-between min-h-60">
-
             <div className="flex justify-between items-start w-full gap-2 text-left">
-              <div className="">
-                <h1 className="text-[22px] sm:text-[18px] font-bold text-white"> Study activity </h1>
-                <p className="text-[13px] text-black mt-0.5"> Cards reviewed over the last 7 days. </p>
-              </div>
-              <div className="bg-[#6545DB] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center">
-                0 this week
-              </div>
+            <div className="">
+              <h1 className="text-[22px] sm:text-[18px] font-bold text-white">
+              Study activity </h1>
+              <p className="text-[13px] text-black mt-0.5">
+              Cards reviewed over the last 7 days. </p>
             </div>
 
-          <div className="flex gap-0.5">
-{/* Friday */}
-            <div className="flex flex-col items-center gap-2 flex-1">
-              <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-                <div className="h-4 bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg"></div>
-              </div>
-                <p className="text-[11px] sm:text-[12px] text-white font-medium"> Fri </p>
-            </div>
-
-{/* Saturday */}
-            <div className="flex flex-col items-center gap-2 flex-1">
-              <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-                <div className="h-4 bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg"></div>
-              </div>
-                <p className="text-[11px] sm:text-[12px] text-white font-medium"> Sat </p>
-            </div>
-
-{/* Sunday */}
-            <div className="flex flex-col items-center gap-2 flex-1">
-              <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-                <div className="h-4 bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg"></div>
-              </div>
-                <p className="text-[11px] sm:text-[12px] text-white font-medium"> Sun </p>
-            </div>
-
-{/* Monday */}
-            <div className="flex flex-col items-center gap-2 flex-1">
-              <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-                <div className="h-4 bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg"></div>
-              </div>
-                <p className="text-[11px] sm:text-[12px] text-white font-medium"> Mon </p>
-            </div>
-
-{/* Tuesday */}
-            <div className="flex flex-col items-center gap-2 flex-1">
-              <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-                <div className="h-4 bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg"></div>
-              </div>
-                <p className="text-[11px] sm:text-[12px] text-white font-medium"> Tue </p>
-            </div>
-
-{/* Wednesday */}
-            <div className="flex flex-col items-center gap-2 flex-1">
-              <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-                <div className="h-4 bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg"></div>
-              </div>
-                <p className="text-[11px] sm:text-[12px] text-white font-medium"> Wed </p>
-            </div>
-
-{/* Thursday */}
-            <div className="flex flex-col items-center gap-2 flex-1">
-              <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-                <div className="h-4 bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg"></div>
-              </div>
-                <p className="text-[11px] sm:text-[12px] text-white font-medium"> Thur </p>
+            <div className="bg-[#6545DB] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center">
+            {studyActivity.length} days
             </div>
           </div>
+
+          <div className="flex gap-0.5">
+
+    {/* Friday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Fri") ? "h-16" : "h-4"
+          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Fri
+      </p>
+    </div>
+
+
+    {/* Saturday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Sat") ? "h-16" : "h-4"
+          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Sat
+      </p>
+    </div>
+
+
+    {/* Sunday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Sun") ? "h-16 bg-[#05173d]" : "h-4 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Sun
+      </p>
+    </div>
+
+
+    {/* Monday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Mon") ? "h-16" : "h-4"
+          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Mon
+      </p>
+    </div>
+
+
+    {/* Tuesday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Tue") ? "h-16 bg-[#05173d]" : "h-4 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Tue
+      </p>
+    </div>
+
+
+    {/* Wednesday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Wed") ? "h-16" : "h-4"
+          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Wed
+      </p>
+    </div>
+
+
+    {/* Thursday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Thur") ? "h-16" : "h-4"
+          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Thur
+      </p>
+    </div>
+
+  </div>
 
         </div>
 
@@ -197,14 +321,31 @@ const Statistics = () => {
                 <p className="text-[13px] text-black mt-0.5"> Your most recent attempts. </p>
               </div>
               <div className="bg-[#097e66] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              0 attempts
+              {lastQuiz ? "1 attempt" : "0 attempts"}
               </div>
             </div>
 
             <div className="w-full min-h-25 border border-dashed border-gray-200 rounded-2xl flex items-center justify-center p-4 mt-4">
-              <p className="text-[14px] text-white text-center">
-              Take your first quiz to see performance here.
-              </p>
+
+              {lastQuiz ? (
+                <div className="flex items-center justify-between w-full">
+                  <div>
+                    <p className="text-[15px] font-bold text-white">
+                      {lastQuiz.deckTitle}
+                    </p>
+                    <p className="text-[13px] text-white">
+                      {lastQuiz.score}/{lastQuiz.totalQuestions} correct
+                    </p>
+                  </div>
+                  <p className="text-[24px] font-bold text-white">
+                    {lastQuiz.percentage}%
+                  </p>
+                </div>
+              ) : (
+                <p className="text-[14px] text-white text-center">
+                  Take your first quiz to see performance here.
+                </p>
+              )}
             </div>
 
           </div>
@@ -220,86 +361,37 @@ const Statistics = () => {
                 <p className="text-[13px] text-black mt-0.5">Calculated from your latest difficulty ratings.</p>
               </div>
               <div className="bg-[#054e05] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center">
-                0% overall
+                {lastQuiz ? `${lastQuiz.percentage}% overall` : "0% overall"}
               </div>
             </div>
-
+            
             <div className="flex flex-col gap-5 w-full py-1">
-              
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between w-full text-[14px]">
-                  <p className="font-bold text-white"> Web Development </p>
-                  <p className="text-white">0% <span className="mx-1">•</span> 4 cards</p>
-                </div>
-                <div className="w-full h-2.5 bg-[#F0F1F5] rounded-full relative overflow-hidden"></div>
-              </div>
 
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between w-full text-[14px]">
-                  <p className="font-bold text-white"> Food </p>
-                  <p className="text-white">0% <span className="mx-1 ">•</span> 4 cards</p>
-                </div>
-                <div className="w-full h-2.5 bg-[#F0F1F5] rounded-full relative overflow-hidden"></div>
-              </div>
+{/* Newly Created Decks */}
+          {myDecks.map((deck) => {
+            const mastery = getDeckMastery(deck);
+            const cardCount = deck.cards?.length ?? 0;
 
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between w-full text-[14px]">
-                  <p className="font-bold text-white"> Travels </p>
-                  <p className="text-white">0% <span className="mx-1">•</span> 4 cards</p>
-                </div>
-                <div className="w-full h-2.5 bg-[#F0F1F5] rounded-full relative overflow-hidden"></div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between w-full text-[14px]">
-                  <p className="font-bold text-[#ffffff]"> Hausa Language </p>
-                  <p className="text-white">0% <span className="mx-1">•</span> 4 cards</p>
-                </div>
-                <div className="w-full h-2.5 bg-[#F0F1F5] rounded-full relative overflow-hidden"></div>
-              </div>
-
+          return (
+          <div key={deck.id} className="flex flex-col gap-2">
+            <div className="flex items-center justify-between w-full text-[14px]">
+              <p className="font-bold text-white">{deck.title}</p>
+              <p className="text-white"> {mastery}% <span className="mx-1">•</span> {cardCount} cards </p>
             </div>
-
+            <div className="w-full h-2.5 bg-[#F0F1F5] rounded-full relative overflow-hidden">
+              <div className="h-full bg-[#008000] rounded-full" style={{ width: `${mastery}%` }} />
+            </div>
           </div>
+          );
+        })}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      </div>
+           
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Statistics
+export default Statistics;
