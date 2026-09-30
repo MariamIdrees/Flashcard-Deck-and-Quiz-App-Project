@@ -1,3 +1,4 @@
+import Profile from "../../components/reusable/flashcard/Profile.jsx";
 import "./Sidebar.css";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -22,49 +23,49 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [streak, setStreak] = useState(0);
 
-useEffect(() => {
-  const updateStreak = () => {
-    const savedActivity = localStorage.getItem("studyActivity");
+  useEffect(() => {
+    const updateStreak = () => {
+      const savedActivity = localStorage.getItem("studyActivity");
 
-    if (!savedActivity) {
-      setStreak(0);
-      return;
-    }
-
-    const activity = JSON.parse(savedActivity);
-
-    if (activity.length === 0) {
-      setStreak(0);
-      return;
-    }
-
-    const dates = [...new Set(activity)].sort().reverse();
-
-    let currentStreak = 0;
-    let currentDate = new Date();
-
-    for (let i = 0; i < dates.length; i++) {
-      const dateString = currentDate.toISOString().split("T")[0];
-
-      if (dates[i] === dateString) {
-        currentStreak++;
-        currentDate.setDate(currentDate.getDate() - 1);
-      } else {
-        break;
+      if (!savedActivity) {
+        setStreak(0);
+        return;
       }
-    }
 
-    setStreak(currentStreak);
-  };
+      const activity = JSON.parse(savedActivity);
 
-  updateStreak();
+      if (activity.length === 0) {
+        setStreak(0);
+        return;
+      }
 
-  window.addEventListener("studyActivityUpdated", updateStreak);
+      const dates = [...new Set(activity)].sort().reverse();
 
-  return () => {
-    window.removeEventListener("studyActivityUpdated", updateStreak);
-  };
-}, []);
+      let currentStreak = 0;
+      let currentDate = new Date();
+
+      for (let i = 0; i < dates.length; i++) {
+        const dateString = currentDate.toISOString().split("T")[0];
+
+        if (dates[i] === dateString) {
+          currentStreak++;
+          currentDate.setDate(currentDate.getDate() - 1);
+        } else {
+          break;
+        }
+      }
+
+      setStreak(currentStreak);
+    };
+
+    updateStreak();
+
+    window.addEventListener("studyActivityUpdated", updateStreak);
+
+    return () => {
+      window.removeEventListener("studyActivityUpdated", updateStreak);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -104,8 +105,12 @@ useEffect(() => {
         className={`sidebar ${isOpen ? "open" : ""}`}
         aria-label="Main navigation"
       >
-        <div className="sidebarLogo">
+        <div className="sidebarLogo" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '40px' }}>
           <img src="/recallicon3.jpeg" alt="recall logo" />
+          
+          <div style={{ marginTop: '12px' }}>
+            <Profile />
+          </div>
         </div>
 
         <nav className="sidebarNav">
