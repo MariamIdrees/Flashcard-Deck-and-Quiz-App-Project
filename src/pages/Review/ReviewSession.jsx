@@ -1,23 +1,19 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Flashcard from "../../components/reusable/flashcard/Flashcard";
+import {
+  getDueCards,
+  getReviewSchedule,
+  REVIEW_SCHEDULE_KEY,
+} from "./review-data";
 import "./ReviewSession.css";
 
-const SCHEDULE_KEY = "reviewSchedule";
 const ratings = [
   { label: "Again", interval: 10 * 60 * 1000, intervalLabel: "10 min" },
   { label: "Hard", interval: 24 * 60 * 60 * 1000, intervalLabel: "1 day" },
   { label: "Good", interval: 3 * 24 * 60 * 60 * 1000, intervalLabel: "3 days" },
   { label: "Easy", interval: 7 * 24 * 60 * 60 * 1000, intervalLabel: "7 days" },
 ];
-
-const getReviewSchedule = () => {
-  try {
-    return JSON.parse(localStorage.getItem(SCHEDULE_KEY) || "{}");
-  } catch {
-    return {};
-  }
-};
 
 const saveCardRating = (deckId, cardId, rating) => {
   const now = Date.now();
@@ -30,7 +26,7 @@ const saveCardRating = (deckId, cardId, rating) => {
   };
 
   try {
-    localStorage.setItem(SCHEDULE_KEY, JSON.stringify(schedule));
+    localStorage.setItem(REVIEW_SCHEDULE_KEY, JSON.stringify(schedule));
     return true;
   } catch {
     return false;
@@ -40,12 +36,7 @@ const saveCardRating = (deckId, cardId, rating) => {
 export const ReviewSession = ({ deck, onEnd }) => {
   const [dueCards] = useState(() => {
     const schedule = getReviewSchedule();
-    const now = Date.now();
-
-    return deck.cards.filter((card) => {
-      const dueAt = schedule[`${deck.id}:${card.id}`]?.dueAt;
-      return !dueAt || dueAt <= now;
-    });
+    return getDueCards(deck, schedule);
   });
   const [cardIndex, setCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
