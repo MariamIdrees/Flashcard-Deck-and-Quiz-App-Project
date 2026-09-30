@@ -2,8 +2,15 @@ import "./Mydecks.css";
 import Flashcard from "../../components/reusable/flashcard/Flashcard";
 import decks from "./data/flashcard";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
+
+const mainDeckIds = [1, 2, 3, 4];
 const Mydecks = () => {
+  const location = useLocation();
+
+
+
   const [myDecks, setMyDecks] = useState(() => {
     const savedDecks = localStorage.getItem("myDecks");
 
@@ -90,6 +97,84 @@ const Mydecks = () => {
     localStorage.setItem("myDecks", JSON.stringify(myDecks));
   }, [myDecks]);
 
+  const recordStudySession = () => {
+  const today = new Date().toISOString().split("T")[0];
+
+  const savedActivity = localStorage.getItem("studyActivity");
+
+  const activity = savedActivity
+    ? JSON.parse(savedActivity)
+    : [];
+
+  if (!activity.includes(today)) {
+    activity.push(today);
+    localStorage.setItem("studyActivity", JSON.stringify(activity));
+    window.dispatchEvent(new Event("studyActivityUpdated"));
+  }
+  
+};
+const getCurrentStreak = () => {
+  const savedActivity = localStorage.getItem("studyActivity");
+
+  if (!savedActivity) {
+    return 0;
+  }
+
+  const activity = JSON.parse(savedActivity);
+
+  if (activity.length === 0) {
+    return 0;
+  }
+
+  const dates = [...new Set(activity)].sort().reverse();
+
+  let streak = 0;
+  let currentDate = new Date();
+
+  for (let i = 0; i < dates.length; i++) {
+    const dateString = currentDate.toISOString().split("T")[0];
+
+    if (dates[i] === dateString) {
+      streak++;
+      currentDate.setDate(currentDate.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+
+  return streak;
+};
+const saveQuizResult = () => {
+  const quizResult = {
+    deckId: selectedDeck.id,
+    deckTitle: selectedDeck.title,
+    score: quizScore,
+    totalQuestions: selectedDeck.cards.length,
+    percentage: Math.round(
+      (quizScore / selectedDeck.cards.length) * 100
+    ),
+    date: new Date().toISOString(),
+  };
+
+  localStorage.setItem("lastQuizResult", JSON.stringify(quizResult));
+};
+
+ 
+
+useEffect(() => {
+ if (location.state?.deckId)  {
+    const deckToOpen = myDecks.find(
+      (deck) => deck.id === location.state.deckId
+    );
+
+    if (deckToOpen) {
+      setSelectedDeck(deckToOpen);
+    }
+  }
+}, [location.state, myDecks]);
+
+
+
   return (
     <main>
       <div className="decksCointainer">
@@ -103,29 +188,59 @@ const Mydecks = () => {
         <div className="allDecks">
           <h1>All your decks</h1>
           <span className="deckp">
-            {" "}
-            <p>{"4"} decks</p> <p>{"40"} cards</p>{" "}
+         
+            <p>{myDecks.length} Decks</p> <p>{myDecks.reduce((total, deck) => total + deck.cards.length, 0)} Flashcards</p>
           </span>
         </div>
 
-        {/* <div className="searchDeck">
-            <div className="searchbigDeck">
-
-            </div>
-
-            <div className="findDeck">
-
-            </div>
-
-         
-          
-        </div> */}
+  
 
         {isCreatingDeck && (
-          <div className="createDeckForm">
-            <h2>Create New Deck</h2>
+        <div className="createDeckForm">
+              <div className="createDeckHeader">
+             <h2>Create New Deck</h2>
 
-            <label>Deck Title</label>
+                 <div className="createDeckActions">
+                              <button
+              onClick={() => {
+                setNewCards([
+                  ...newCards,
+                  {
+                    question: newQuestion,
+                    answer: newAnswer,
+                  },
+                ]);
+
+                setNewQuestion("");
+                setNewAnswer("");
+              }}
+            >
+              + Add Card
+            </button>
+
+             <button
+              onClick={() => {
+                const newDeck = {
+                  id: Date.now(),
+                  title: newDeckTitle,
+                  cards: newCards,
+                };
+
+                setMyDecks([...myDecks, newDeck]);
+                setIsCreatingDeck(false);
+                setNewDeckTitle("");
+                setNewCards([]);
+
+                setMyDecks([...myDecks, newDeck]);
+              }}
+            >
+              Create Deck
+            </button>
+                  
+                   </div>
+                     </div>
+
+                        <label>Deck Title</label>
 
             <input
               type="text"
@@ -149,41 +264,9 @@ const Mydecks = () => {
               value={newAnswer}
               onChange={(e) => setNewAnswer(e.target.value)}
             ></textarea>
-            <button
-              onClick={() => {
-                setNewCards([
-                  ...newCards,
-                  {
-                    question: newQuestion,
-                    answer: newAnswer,
-                  },
-                ]);
+          
 
-                setNewQuestion("");
-                setNewAnswer("");
-              }}
-            >
-              + Add Card
-            </button>
-
-            <button
-              onClick={() => {
-                const newDeck = {
-                  id: Date.now(),
-                  title: newDeckTitle,
-                  cards: newCards,
-                };
-
-                setMyDecks([...myDecks, newDeck]);
-                setIsCreatingDeck(false);
-                setNewDeckTitle("");
-                setNewCards([]);
-
-                setMyDecks([...myDecks, newDeck]);
-              }}
-            >
-              Create Deck
-            </button>
+           
 
             {newCards.length > 0 && (
               <div className="newCardsList">
@@ -247,18 +330,52 @@ const Mydecks = () => {
           <div className="deckList">
             {myDecks.map((deck) => (
               <div className="deckWrapper" key={deck.id}>
-                <div
-                  className="deckCard"
-                  onClick={() => {
-                    if (openMenu === deck.id) {
-                      setOpenMenu(null);
-                    } else {
-                      setSelectedDeck(deck);
-                    }
-                  }}
-                >
-                  <h1>{deck.title}</h1>
-                </div>
+               <div
+  className="deckCard"
+  onClick={() => {
+    if (openMenu === deck.id) {
+      setOpenMenu(null);
+    } else {
+      setSelectedDeck(deck);
+    }
+  }}
+>
+  <h1>{deck.title}</h1>
+
+  <div className="deckActions">
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        setSelectedDeck(deck);
+        setCurrentCard(0);
+        setIsQuiz(false);
+        setIsQuizCompleted(false);
+        setQuizCard(0);
+        setQuizScore(0);
+        setSelectedAnswer("");
+        setIsAnswerChecked(false);
+      }}
+    >
+      Study Deck
+    </button>
+
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        setSelectedDeck(deck);
+        setCurrentCard(0);
+        setIsQuiz(true);
+        setIsQuizCompleted(false);
+        setQuizCard(0);
+        setQuizScore(0);
+        setSelectedAnswer("");
+        setIsAnswerChecked(false);
+      }}
+    >
+      Take Quiz
+    </button>
+  </div>
+</div>
 
                 {!deck.isDefault && (
                   <button
@@ -312,47 +429,71 @@ const Mydecks = () => {
             <>
               {isQuiz ? (
                 isQuizCompleted ? (
-                  <div className="quizCompleted">
-                    <h2>Quiz Completed! 🎉</h2>
+                 <div className="quizSessionComplete">
 
-                    <p>
-                      Your score: {quizScore}/{selectedDeck.cards.length}
-                    </p>
-                    <div className="quizCompletedButtons">
-                      <button
-                        onClick={() => {
-                          setSelectedDeck(null);
-                          setIsQuiz(false);
-                          setIsQuizCompleted(false);
-                          setQuizCard(0);
-                          setQuizScore(0);
-                          setSelectedAnswer("");
-                          setIsAnswerChecked(false);
-                        }}
-                      >
-                        Back to Decks
-                      </button>
+  <h2>Session complete</h2>
 
-                      <button
-                        onClick={() => {
-                          setQuizCard(0);
-                          setQuizScore(0);
-                          setSelectedAnswer("");
-                          setIsAnswerChecked(false);
-                          setIsQuizCompleted(false);
-                        }}
-                      >
-                        Take Quiz Again
-                      </button>
-                    </div>
-                  </div>
+  <div className="sessionCheck">
+    ✓
+  </div>
+
+  <h3>Great work!</h3>
+
+  <p className="sessionMessage">
+    You completed your quiz session.
+  </p>
+
+  <div className="sessionScore">
+    {Math.round(
+      (quizScore / selectedDeck.cards.length) * 100
+    )}
+    <span>%</span>
+  </div>
+
+  <div className="sessionStats">
+
+    <div className="sessionStat">
+      <strong>{selectedDeck.cards.length}</strong>
+      <span>questions</span>
+    </div>
+
+    <div className="sessionStat">
+      <strong>
+        {selectedDeck.cards.length - quizScore}
+      </strong>
+      <span>incorrect</span>
+    </div>
+
+    <div className="sessionStat">
+      <strong>{getCurrentStreak()}</strong>
+      <span>Day streak</span>
+    </div>
+
+  </div>
+
+  <button
+    className="sessionCompleteButton"
+    onClick={() => {
+      setSelectedDeck(null);
+      setIsQuiz(false);
+      setIsQuizCompleted(false);
+      setQuizCard(0);
+      setQuizScore(0);
+      setSelectedAnswer("");
+      setIsAnswerChecked(false);
+    }}
+  >
+    Back to Decks
+  </button>
+
+</div>
                 ) : (
                   <main className="quizContainer">
-                    <h2>Quiz</h2>
-                    <p>
-                      {" "}
-                      Score: {quizScore}/{selectedDeck.cards.length}{" "}
-                    </p>
+                      <div className="quizHeader">
+                           <h2>Quiz</h2>
+                         <span>{quizCard + 1}/{selectedDeck.cards.length} </span>
+                         </div>
+                        <p> Score: {quizScore}/{selectedDeck.cards.length}</p>
                     <h3> {selectedDeck.cards[quizCard].question} </h3>
 
                     <section className="quizOptions">
@@ -399,7 +540,7 @@ const Mydecks = () => {
 
                       {isAnswerChecked &&
                         quizCard < selectedDeck.cards.length - 1 && (
-                          <button
+                          <button 
                             type="button"
                             onClick={() => {
                               setQuizCard(quizCard + 1);
@@ -413,12 +554,35 @@ const Mydecks = () => {
 
                       {isAnswerChecked &&
                         quizCard === selectedDeck.cards.length - 1 && (
-                          <button
-                            type="button"
-                            onClick={() => setIsQuizCompleted(true)}
-                          >
-                            Quiz Completed
-                          </button>
+                             <button
+      type="button"
+      onClick={() => {
+        const finalScore =
+          quizScore +
+          (selectedAnswer === selectedDeck.cards[quizCard].answer ? 1 : 0);
+
+        const quizResult = {
+          deckId: selectedDeck.id,
+          deckTitle: selectedDeck.title,
+          score: finalScore,
+          totalQuestions: selectedDeck.cards.length,
+          percentage: Math.round(
+            (finalScore / selectedDeck.cards.length) * 100
+          ),
+          date: new Date().toISOString(),
+        };
+
+        localStorage.setItem(
+          "lastQuizResult",
+          JSON.stringify(quizResult)
+        );
+
+        recordStudySession();
+        setIsQuizCompleted(true);
+      }}
+    >
+      Quiz Completed
+    </button>
                         )}
                     </section>
                   </main>
@@ -530,28 +694,33 @@ const Mydecks = () => {
                     </div>
                   ) : (
                     <>
+                    <div className="flashcardWithNext">
                       <Flashcard
                         key={currentCard}
                         question={selectedDeck.cards[currentCard].question}
                         answer={selectedDeck.cards[currentCard].answer}
                       />
-
-                      <div className="flashcardButtons">
-                        <button
+                      <button className="nextCardButton"
                           onClick={() => {
-                            if (currentCard === selectedDeck.cards.length - 1) {
-                              setIsQuiz(true);
-                            } else {
+                           if (currentCard === selectedDeck.cards.length - 1) {
+                             recordStudySession();
+                             setIsQuiz(true);
+                              } else {
                               setCurrentCard(currentCard + 1);
-                            }
+                              }
                           }}
                         >
                           {currentCard === selectedDeck.cards.length - 1
-                            ? "Finish"
-                            : "Next"}
+                             ? "Finish ✓"
+                                : <span>Next&nbsp;→</span>
+}
                         </button>
+                        </div>
 
-                        <button
+                      <div className="flashcardButtons">
+                        
+
+                        <button className="backDeckButton"
                           onClick={() => {
                             setSelectedDeck(null);
                             setCurrentCard(0);
@@ -559,8 +728,10 @@ const Mydecks = () => {
                         >
                           Back to Decks
                         </button>
+   
 
-                        <button
+                        {!mainDeckIds.includes(selectedDeck.id) && (
+                        <button className="editCardButton"
                           onClick={() => {
                             setEditedQuestion(
                               selectedDeck.cards[currentCard].question,
@@ -573,12 +744,18 @@ const Mydecks = () => {
                         >
                           Edit Card
                         </button>
+                        )}
 
-                        <button onClick={() => setIsAddingCard(true)}>
-                          + Add Card
-                        </button>
+                       {!mainDeckIds.includes(selectedDeck.id) && (
+                            <button
+                              className="addCardButton"
+                               onClick={() => setIsAddingCard(true)} >
+                                 + Add Card
+                                </button>
+                                  )}
 
-                        <button
+                         {!mainDeckIds.includes(selectedDeck.id) && (
+                        <button className="deleteCardButton"
                           onClick={() => {
                             const updatedCards = selectedDeck.cards.filter(
                               (_, index) => index !== currentCard,
@@ -608,6 +785,7 @@ const Mydecks = () => {
                         >
                           Delete Card
                         </button>
+                        )}
                       </div>
                     </>
                   )}
