@@ -42,6 +42,11 @@ const Statistics = () => {
     return 0;
     };
 
+    const totalCards = myDecks.reduce(
+    (total, deck) => total + deck.cards.length, 0);
+    const cardsMastered = lastQuiz ? lastQuiz.score : 0;
+    const cardsLearning = totalCards - cardsMastered;
+
     const getCurrentStreak = () => {
     if (studyActivity.length === 0) return 0;
     const dates = [...new Set(studyActivity)].sort().reverse();
@@ -81,13 +86,13 @@ const Statistics = () => {
           </div>
 
           <div className="h-24 w-full rounded-[20px] bg-white flex flex-col items-center justify-center ">
-            <h1 className="text-[20px] font-bold"> 0 </h1>
+            <h1 className="text-[20px] font-bold"> {lastQuiz ? lastQuiz.score : 0}</h1>
             <p className="text-[13px] text-gray-400"> Cards mastered </p>
           </div>
 
           <div className="h-24 w-full rounded-[20px] bg-white     flex flex-col items-center justify-center ">
-            <h1 className="text-[20px] font-bold"> 0 </h1>
-            <p className="text-[13px] text-gray-400"> Cards learning </p>
+            <h1 className="text-[20px] font-bold"> {cardsLearning} </h1>
+            <p className="text-[13px] text-gray-400"> Total cards learning </p>
           </div>
 
           <div className="h-24 w-full rounded-[20px] bg-white     flex flex-col items-center justify-center ">
@@ -123,13 +128,10 @@ const Statistics = () => {
 
             <div className="flex gap-4 text-[13px] text-black mt-0.5">
               <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              0 mastered
+              {lastQuiz ? `${lastQuiz.score} mastered` : "0 mastered"}
               </div>
               <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              0 learning
-              </div>
-              <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              0 new
+              {cardsLearning} learning
               </div>
             </div>
 
@@ -358,7 +360,7 @@ const Statistics = () => {
             <div className="flex justify-between items-start w-full">
               <div>
                 <h2 className="text-[22px] sm:text-[18px] font-bold text-white">Mastery by deck</h2>
-                <p className="text-[13px] text-black mt-0.5">Calculated from your latest difficulty ratings.</p>
+                <p className="text-[13px] text-black mt-0.5"> A general overview of all your cards. </p>
               </div>
               <div className="bg-[#054e05] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center">
                 {lastQuiz ? `${lastQuiz.percentage}% overall` : "0% overall"}
