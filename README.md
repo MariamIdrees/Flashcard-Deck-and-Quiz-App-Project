@@ -54,9 +54,6 @@ npm run dev
 Open your browser and navigate to the local URL provided by Vite (usually http://localhost:5173).
 
 👥 Contributors
----
-
-## 👥 Contributors
 
 **Chiamaka Love Ododo**
 **Jennifer Ogbang**
