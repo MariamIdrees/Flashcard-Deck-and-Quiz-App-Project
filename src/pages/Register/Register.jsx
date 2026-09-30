@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
+import { Eye, EyeOff } from 'lucide-react';
 
 const Register = () => {
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -140,17 +142,42 @@ const Register = () => {
               />
             </div>
 
-            <div>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 outline-none transition text-sm"
-                placeholder="Password (min 6 characters)"
-                disabled={loading}
-              />
-            </div>
+            <div style={{ position: 'relative', width: '100%' }}>
+  <input
+    type={showPassword ? 'text' : 'password'}
+    placeholder="Password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    style={{
+      width: '100%',
+      padding: '10px 40px 13px 12px',
+      borderRadius: '6px',
+      border: '1px solid #ccc',
+      backgroundColor: '#fff',
+      color: '#202124',
+      boxSizing: 'border-box'
+    }}
+  />
+  <button
+    type="button"
+    onClick={() => setShowPassword(!showPassword)}
+    style={{
+      position: 'absolute',
+      right: '12px',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      color: '#9aa0a6',
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0'
+    }}
+  >
+    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+  </button>
+</div>
 
             <button
               type="submit"

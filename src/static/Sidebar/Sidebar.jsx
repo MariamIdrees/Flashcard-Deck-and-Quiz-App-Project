@@ -1,3 +1,4 @@
+import Profile from "../../components/reusable/flashcard/Profile.jsx";
 import "./Sidebar.css";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -59,8 +60,13 @@ const Sidebar = () => {
         className={`sidebar ${isOpen ? "open" : ""}`}
         aria-label="Main navigation"
       >
-        <div className="sidebarLogo">
+        
+        <div className="sidebarLogo" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '40px' }}>
           <img src="/recallicon2.jpeg" alt="recall logo" />
+          
+          <div style={{ marginTop: '12px' }}>
+            <Profile />
+          </div>
         </div>
 
         <nav className="sidebarNav">
