@@ -104,7 +104,178 @@ const Statistics = () => {
 {/* Big Cards */}
         {/* <div className="flex flex-wrap justify-between gap-y-10"> */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+
 {/* card 1 */}
+          <div className="w-full max-w-xl rounded-3xl bg-[#19B394] p-5 sm:p-6 shadow-sm border border-gray-50 flex flex-col justify-between min-h-65">
+
+            <div className="flex justify-between items-start w-full gap-2">
+              <div>
+                <h1 className="text-[22px] sm:text-[18px] font-bold text-[#ffffff]"> Quiz performance </h1>
+                <p className="text-[13px] text-black mt-0.5"> Your most recent attempts. </p>
+              </div>
+              <div className="bg-[#097e66] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
+              {lastQuiz ? "1 attempt" : "0 attempts"}
+              </div>
+            </div>
+
+            <div className="w-full min-h-25 border border-dashed border-gray-200 rounded-2xl flex items-center justify-center p-4 mt-4">
+
+              {lastQuiz ? (
+                <div className="flex items-center justify-between w-full">
+                  <div>
+                    <p className="text-[15px] font-bold text-white">
+                      {lastQuiz.deckTitle}
+                    </p>
+                    <p className="text-[13px] text-white">
+                      {lastQuiz.score}/{lastQuiz.totalQuestions} correct
+                    </p>
+                  </div>
+                  <p className="text-[24px] font-bold text-white">
+                    {lastQuiz.percentage}%
+                  </p>
+                </div>
+              ) : (
+                <p className="text-[14px] text-white text-center">
+                  Take your first quiz to see performance here.
+                </p>
+              )}
+            </div>
+
+          </div>
+
+{/* card 2 */}
+          <div className="w-full h-70 rounded-3xl bg-[#7C5CFF] p-5 sm:p-6 shadow-sm border border-gray-50 flex flex-col gap-6 justify-between min-h-60">
+            <div className="flex justify-between items-start w-full gap-2 text-left">
+            <div className="">
+              <h1 className="text-[22px] sm:text-[18px] font-bold text-white">
+              Study activity </h1>
+              <p className="text-[13px] text-black mt-0.5">
+              Cards reviewed over the last 7 days. </p>
+            </div>
+
+            <div className="bg-[#6545DB] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center">
+            {studyActivity.length} days
+            </div>
+          </div>
+
+          <div className="flex gap-0.5">
+
+    {/* Friday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Fri") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Fri
+      </p>
+    </div>
+
+
+    {/* Saturday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Sat") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Sat
+      </p>
+    </div>
+
+
+    {/* Sunday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Sun") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Sun
+      </p>
+    </div>
+
+
+    {/* Monday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Mon") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Mon
+      </p>
+    </div>
+
+
+    {/* Tuesday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Tue") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Tue
+      </p>
+    </div>
+
+
+    {/* Wednesday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Wed") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Wed
+      </p>
+    </div>
+
+
+    {/* Thursday */}
+    <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
+        <div
+          className={`${
+            getStudyDay("Thur") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
+        ></div>
+      </div>
+
+      <p className="text-[11px] sm:text-[12px] text-white font-medium">
+        Thur
+      </p>
+    </div>
+
+  </div>
+
+        </div>
+
+{/* card 3 */}
           <div className="w-full rounded-3xl bg-[#d64f9c] p-6 sm:p-6 shadow-sm border border-gray-50 flex flex-col justify-between min-h-60 text-left">
 
             <div className="flex justify-between items-start w-full gap-9">
@@ -137,139 +308,7 @@ const Statistics = () => {
 
           </div>
 
-{/* card 2 */}
-          <div className="w-full h-70 rounded-3xl bg-[#7C5CFF] p-5 sm:p-6 shadow-sm border border-gray-50 flex flex-col gap-6 justify-between min-h-60">
-            <div className="flex justify-between items-start w-full gap-2 text-left">
-            <div className="">
-              <h1 className="text-[22px] sm:text-[18px] font-bold text-white">
-              Study activity </h1>
-              <p className="text-[13px] text-black mt-0.5">
-              Cards reviewed over the last 7 days. </p>
-            </div>
-
-            <div className="bg-[#6545DB] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center">
-            {studyActivity.length} days
-            </div>
-          </div>
-
-          <div className="flex gap-0.5">
-
-    {/* Friday */}
-    <div className="flex flex-col items-center gap-2 flex-1">
-      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-        <div
-          className={`${
-            getStudyDay("Fri") ? "h-16" : "h-4"
-          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
-        ></div>
-      </div>
-
-      <p className="text-[11px] sm:text-[12px] text-white font-medium">
-        Fri
-      </p>
-    </div>
-
-
-    {/* Saturday */}
-    <div className="flex flex-col items-center gap-2 flex-1">
-      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-        <div
-          className={`${
-            getStudyDay("Sat") ? "h-16" : "h-4"
-          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
-        ></div>
-      </div>
-
-      <p className="text-[11px] sm:text-[12px] text-white font-medium">
-        Sat
-      </p>
-    </div>
-
-
-    {/* Sunday */}
-    <div className="flex flex-col items-center gap-2 flex-1">
-      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-        <div
-          className={`${
-            getStudyDay("Sun") ? "h-16 bg-[#05173d]" : "h-4 bg-[#C7CDDB]"
-          } w-full rounded-b-mb sm:rounded-b-lg`}
-        ></div>
-      </div>
-
-      <p className="text-[11px] sm:text-[12px] text-white font-medium">
-        Sun
-      </p>
-    </div>
-
-
-    {/* Monday */}
-    <div className="flex flex-col items-center gap-2 flex-1">
-      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-        <div
-          className={`${
-            getStudyDay("Mon") ? "h-16" : "h-4"
-          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
-        ></div>
-      </div>
-
-      <p className="text-[11px] sm:text-[12px] text-white font-medium">
-        Mon
-      </p>
-    </div>
-
-
-    {/* Tuesday */}
-    <div className="flex flex-col items-center gap-2 flex-1">
-      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-        <div
-          className={`${
-            getStudyDay("Tue") ? "h-16 bg-[#05173d]" : "h-4 bg-[#C7CDDB]"
-          } w-full rounded-b-mb sm:rounded-b-lg`}
-        ></div>
-      </div>
-
-      <p className="text-[11px] sm:text-[12px] text-white font-medium">
-        Tue
-      </p>
-    </div>
-
-
-    {/* Wednesday */}
-    <div className="flex flex-col items-center gap-2 flex-1">
-      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-        <div
-          className={`${
-            getStudyDay("Wed") ? "h-16" : "h-4"
-          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
-        ></div>
-      </div>
-
-      <p className="text-[11px] sm:text-[12px] text-white font-medium">
-        Wed
-      </p>
-    </div>
-
-
-    {/* Thursday */}
-    <div className="flex flex-col items-center gap-2 flex-1">
-      <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
-        <div
-          className={`${
-            getStudyDay("Thur") ? "h-16" : "h-4"
-          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
-        ></div>
-      </div>
-
-      <p className="text-[11px] sm:text-[12px] text-white font-medium">
-        Thur
-      </p>
-    </div>
-
-  </div>
-
-        </div>
-
-{/* card 3 */}
+{/* card 4 */}
          {/* <div className="h-70 w-120 rounded-[20px] bg-white     flex flex-col gap-5"> */}
         <div className="w-full max-w-xl rounded-3xl bg-[#FF7A59] p-5 sm:p-6 shadow-sm border border-gray-50 flex flex-col justify-between min-h-65 gap-3">
 
@@ -313,44 +352,6 @@ const Statistics = () => {
         </div>
 
       </div>
-
-{/* card 4 */}
-          <div className="w-full max-w-xl rounded-3xl bg-[#19B394] p-5 sm:p-6 shadow-sm border border-gray-50 flex flex-col justify-between min-h-65">
-
-            <div className="flex justify-between items-start w-full gap-2">
-              <div>
-                <h1 className="text-[22px] sm:text-[18px] font-bold text-[#ffffff]"> Quiz performance </h1>
-                <p className="text-[13px] text-black mt-0.5"> Your most recent attempts. </p>
-              </div>
-              <div className="bg-[#097e66] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              {lastQuiz ? "1 attempt" : "0 attempts"}
-              </div>
-            </div>
-
-            <div className="w-full min-h-25 border border-dashed border-gray-200 rounded-2xl flex items-center justify-center p-4 mt-4">
-
-              {lastQuiz ? (
-                <div className="flex items-center justify-between w-full">
-                  <div>
-                    <p className="text-[15px] font-bold text-white">
-                      {lastQuiz.deckTitle}
-                    </p>
-                    <p className="text-[13px] text-white">
-                      {lastQuiz.score}/{lastQuiz.totalQuestions} correct
-                    </p>
-                  </div>
-                  <p className="text-[24px] font-bold text-white">
-                    {lastQuiz.percentage}%
-                  </p>
-                </div>
-              ) : (
-                <p className="text-[14px] text-white text-center">
-                  Take your first quiz to see performance here.
-                </p>
-              )}
-            </div>
-
-          </div>
 
       </div>
 
