@@ -21,6 +21,51 @@ const navigation = [
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [streak, setStreak] = useState(0);
+
+useEffect(() => {
+  const updateStreak = () => {
+    const savedActivity = localStorage.getItem("studyActivity");
+
+    if (!savedActivity) {
+      setStreak(0);
+      return;
+    }
+
+    const activity = JSON.parse(savedActivity);
+
+    if (activity.length === 0) {
+      setStreak(0);
+      return;
+    }
+
+    const dates = [...new Set(activity)].sort().reverse();
+
+    let currentStreak = 0;
+    let currentDate = new Date();
+
+    for (let i = 0; i < dates.length; i++) {
+      const dateString = currentDate.toISOString().split("T")[0];
+
+      if (dates[i] === dateString) {
+        currentStreak++;
+        currentDate.setDate(currentDate.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+
+    setStreak(currentStreak);
+  };
+
+  updateStreak();
+
+  window.addEventListener("studyActivityUpdated", updateStreak);
+
+  return () => {
+    window.removeEventListener("studyActivityUpdated", updateStreak);
+  };
+}, []);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -60,6 +105,7 @@ const Sidebar = () => {
         className={`sidebar ${isOpen ? "open" : ""}`}
         aria-label="Main navigation"
       >
+<<<<<<< HEAD
         
         <div className="sidebarLogo" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '40px' }}>
           <img src="/recallicon2.jpeg" alt="recall logo" />
@@ -67,6 +113,10 @@ const Sidebar = () => {
           <div style={{ marginTop: '12px' }}>
             <Profile />
           </div>
+=======
+        <div className="sidebarLogo">
+          <img src="/recallicon3.jpeg" alt="recall logo" />
+>>>>>>> 779125cbb1e1cac3cfc2d81df41139250b89d201
         </div>
 
         <nav className="sidebarNav">
@@ -89,7 +139,7 @@ const Sidebar = () => {
         <div className="sidebarBottom">
           <div className="sidebarLink sidebarStatus">
             <Flame size={19} aria-hidden="true" />
-            <span>Streak</span>
+            <span>Streak: {streak} days</span>
           </div>
         </div>
       </aside>

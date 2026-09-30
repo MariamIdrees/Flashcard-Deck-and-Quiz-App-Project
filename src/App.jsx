@@ -14,6 +14,7 @@ import Landing from "./pages/Landing/Landing";
 import Register from "./pages/Register/Register";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 
+
 const WorkspaceLayout = () => (
   <div className="dashboardContainer">
     <div className="sidebarWrap">

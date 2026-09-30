@@ -36,6 +36,10 @@ const Dashboard = () => {
   return (
     <div className="dashhboardOverflow">
 
+      <div className="dashboardIcon">
+        <img src="recallicon4.jpeg" alt="Recall icon" />
+      </div>
+
 
    <div className="dashboardText">
                     <p>GOOD MORNING</p>
@@ -78,7 +82,7 @@ const Dashboard = () => {
           <h5> TODAY'S GOAL </h5>
           <h4>10 cards can make a big difference </h4>
           <p>10 cards left to hit today's goal. You have 0 cards waiting for review.</p>
-          {/* <button>Browse decks</button> */}
+       
                          
        </div>
 
