@@ -125,7 +125,6 @@ const LoginModal = ({ isOpen, onClose }) => {
     Password
   </label>
   
-  {/* Relative wrapper for the input and eye icon */}
   <div className="relative w-full">
     <input
       type={showPassword ? 'text' : 'password'}
@@ -135,13 +134,13 @@ const LoginModal = ({ isOpen, onClose }) => {
       required
       value={password}
       onChange={(e) => setPassword(e.target.value)}
-      // Added pr-12 so the text doesn't type underneath the eye icon button
+      
       className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-600 outline-none transition"
       placeholder="••••••••"
       disabled={loading}
     />
 
-    {/* The Eye Icon Toggle Button */}
+    
     <button
       type="button"
       onClick={() => setShowPassword(!showPassword)}

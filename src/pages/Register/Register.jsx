@@ -27,7 +27,6 @@ const Register = () => {
       return;
     }
 
-    // New strong password requirement added here
     const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
     if (!strongPasswordRegex.test(password)) {
       setError("Password must contain at least 6 characters, including uppercase and lowercase letters, a number, and a symbol.");
@@ -62,12 +61,10 @@ const Register = () => {
     <div className="min-h-screen bg-[#f8f9fa] flex flex-col items-center justify-center p-6 font-sans text-gray-800">
       <div className="w-full max-w-100 mx-auto text-center">
         
-        {/* Logo */}
         <Link to="/" className="inline-block mb-8">
-          <img src="/recallicon3.jpeg" alt="Recall" className="h-10 mx-auto object-contain" />
+          <img src="/recallicon6.jpeg" alt="Recall" className="h-10 mx-auto object-contain" />
         </Link>
 
-        {/* Headings */}
         <h1 className="text-3xl font-bold text-gray-900 mb-3" style={{ fontFamily: '"Space Grotesk", sans-serif' }}>
           Start Learning Faster
         </h1>
@@ -75,7 +72,6 @@ const Register = () => {
           Study adaptive web & mobile flashcards, or make your own flashcards for FREE.
         </p>
 
-        {/* Social Buttons */}
         <div className="space-y-4">
           <button className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-full py-3.5 text-xs font-bold tracking-widest text-gray-700 hover:bg-gray-50 transition shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className="w-4 h-4 fill-current">
@@ -95,14 +91,12 @@ const Register = () => {
           </button>
         </div>
 
-        {/* Divider */}
         <div className="flex items-center my-8">
           <div className="grow border-t border-gray-300"></div>
           <span className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">OR</span>
           <div className="grow border-t border-gray-300"></div>
         </div>
 
-        {/* Dynamic Email Section */}
         {!showEmailForm ? (
           <button
             onClick={() => setShowEmailForm(true)}
