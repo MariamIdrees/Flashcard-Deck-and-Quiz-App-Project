@@ -71,14 +71,37 @@
 
 @media (max-width:500px) {
     .flashcardContainer{
-        width: 100%;
+        width: 90%;
         height: 200px;
     }
 
     .flashcard{
-        background-color: pink;
-        /* width: 90%;
-        height: 100%; */
+       
+        width: 90%;
+        height: 100%;
+        font-size: 15px;
+        margin:auto
+    }
+    .flashcardButtons {
+        gap: 10px;
+        width: 100%;
+    }
+     .flashcardGrid {
+        width: 90vw;
+    }
+    
+}
+
+@media (max-width:764px) {
+    .flashcardContainer{
+        width: 90%;
+        height: 200px;
+    }
+
+    .flashcard{
+       
+        width: 60%;
+        height: 100%;
         font-size: 15px;
         margin:auto
     }

@@ -32,13 +32,28 @@ const Dashboard = () => {
     (total, deck) => total + deck.cards.length,
     0
   );
+  const currentHour = new Date().getHours();
+
+let greeting;
+
+if (currentHour < 12) {
+  greeting = "Good morning";
+} else if (currentHour < 18) {
+  greeting = "Good afternoon";
+} else {
+  greeting = "Good evening";
+}
 
   return (
     <div className="dashhboardOverflow">
 
+      <div className="dashboardIcon">
+        <img src="recallicon4.jpeg" alt="Recall icon" />
+      </div>
+
 
    <div className="dashboardText">
-                    <p>GOOD MORNING</p>
+                    <p>{greeting}</p>
                   <div className="dashboardHeader">
                     <h1>Ready to learn?</h1>
                   </div>
@@ -78,7 +93,7 @@ const Dashboard = () => {
           <h5> TODAY'S GOAL </h5>
           <h4>10 cards can make a big difference </h4>
           <p>10 cards left to hit today's goal. You have 0 cards waiting for review.</p>
-          {/* <button>Browse decks</button> */}
+       
                          
        </div>
 

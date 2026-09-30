@@ -7,6 +7,17 @@ const decks = [
     cards: [
       {
         id: 1,
+        question: "what is HTML used for?",
+        answer: "It is used to structure web pages",
+        options: [
+          "it is used for styling web pages ",
+          "It is used to structure web pages",
+          "It is used to add interactivity to web pages",
+          "it is used to store data in web pages",
+        ],
+      },
+      {
+         id: 2,
         question: "what is a variable?",
         answer:
           "A variable is a stored container used to store a value that a program can use",
@@ -15,17 +26,6 @@ const decks = [
           "A variable is a stored container used to store a value that a program can use",
           "A variable is a property used for styling",
           "A variable is a value where data are stored around ",
-        ],
-      },
-      {
-        id: 2,
-        question: "what is HTML used for?",
-        answer: "It is used to structure web pages",
-        options: [
-          "it is used for styling web pages ",
-          "It is used to structure web pages",
-          "It is used to add interactivity to web pages",
-          "it is used to store data in web pages",
         ],
       },
       {
@@ -64,16 +64,17 @@ const decks = [
       },
       {
         id: 6,
-        question: "What is Back-end development?",
+        question: "What is the primitive data types in Javascript?",
         answer:
-          "Back-end development handles the server, database, APIs and logic that operate behind the scenes",
+          "String, Number, BigInt, Boolean, undefined, null and symbol",
         options: [
-          "Back-end development focuses on the part of a website or app that users see and interact with",
-          "Back-end development handles the server, database, APIs and logic that operate behind the scenes",
-          "Back-end development is responsible for the overall architecture of a web application",
-          "Back-end development involves creating the user interface and user experience of a website or app",
+          "value, string, key, Number, and string",
+          "String, Number, BigInt, Boolean, undefined, null and symbol",
+          "String, array, Boolean, variable and null",
+          "String, Number, value and array"
         ],
       },
+       
       {
         id: 7,
         question: "What is Javascript",
