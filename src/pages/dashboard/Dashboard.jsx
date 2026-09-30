@@ -32,6 +32,17 @@ const Dashboard = () => {
     (total, deck) => total + deck.cards.length,
     0
   );
+  const currentHour = new Date().getHours();
+
+let greeting;
+
+if (currentHour < 12) {
+  greeting = "Good morning";
+} else if (currentHour < 18) {
+  greeting = "Good afternoon";
+} else {
+  greeting = "Good evening";
+}
 
   return (
     <div className="dashhboardOverflow">
@@ -42,7 +53,7 @@ const Dashboard = () => {
 
 
    <div className="dashboardText">
-                    <p>GOOD MORNING</p>
+                    <p>{greeting}</p>
                   <div className="dashboardHeader">
                     <h1>Ready to learn?</h1>
                   </div>
