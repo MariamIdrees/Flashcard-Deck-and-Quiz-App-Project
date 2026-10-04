@@ -23,6 +23,7 @@ const Mydecks = () => {
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [quizOptions, setQuizOptions] = useState([]);
   const [quizScore, setQuizScore] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState({});
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const [isAnswerChecked, setIsAnswerChecked] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -52,6 +53,7 @@ const Mydecks = () => {
       } else {
         setQuizOptions([]);
       }
+      setSelectedAnswer(quizAnswers[quizCard] || "");
     }
   }, [quizCard, isQuiz, selectedDeck]);
 
@@ -493,7 +495,6 @@ useEffect(() => {
                            <h2>Quiz</h2>
                          <span>{quizCard + 1}/{selectedDeck.cards.length} </span>
                          </div>
-                        <p> Score: {quizScore}/{selectedDeck.cards.length}</p>
                     <h3> {selectedDeck.cards[quizCard].question} </h3>
 
                     <section className="quizOptions">
@@ -504,85 +505,63 @@ useEffect(() => {
                           className={
                             selectedAnswer === option ? "selectedOption" : ""
                           }
-                          onClick={() => setSelectedAnswer(option)}
-                        >
+                          onClick={() => {setSelectedAnswer(option); setQuizAnswers({ ...quizAnswers,
+                          [quizCard]: option, });}} >
                           {option}
                         </button>
                       ))}
 
-                      <button
-                        type="button"
-                        disabled={!selectedAnswer || isAnswerChecked}
-                        onClick={() => {
-                          if (
-                            selectedAnswer ===
-                            selectedDeck.cards[quizCard].answer
-                          ) {
-                            setQuizScore(quizScore + 1);
-                          }
+                    
 
-                          setIsAnswerChecked(true);
-                        }}
-                      >
-                        Check Answer
-                      </button>
+                    {quizCard < selectedDeck.cards.length - 1 && (
+  <button
+    type="button"
+    disabled={!quizAnswers[quizCard]}
+    onClick={() => {
+      setQuizCard(quizCard + 1);
+      setSelectedAnswer(quizAnswers[quizCard + 1] || "");
+    }}
+  >
+    Next Question
+  </button>
+)}
+                     {quizCard === selectedDeck.cards.length - 1 && (
+       <button
+  type="button"
+  disabled={!quizAnswers[quizCard]}
+  onClick={() => {
+    let finalScore = 0;
 
-                      {isAnswerChecked && (
-                        <aside>
-                          {selectedAnswer ===
-                          selectedDeck.cards[quizCard].answer ? (
-                            <p>✅ Correct!</p>
-                          ) : (
-                            <p>❌ Wrong!</p>
-                          )}
-                        </aside>
-                      )}
+    selectedDeck.cards.forEach((card, index) => {
+      if (quizAnswers[index] === card.answer) {
+        finalScore++;
+      }
+    });
 
-                      {isAnswerChecked &&
-                        quizCard < selectedDeck.cards.length - 1 && (
-                          <button 
-                            type="button"
-                            onClick={() => {
-                              setQuizCard(quizCard + 1);
-                              setSelectedAnswer("");
-                              setIsAnswerChecked(false);
-                            }}
-                          >
-                            Next Question
-                          </button>
-                        )}
+    setQuizScore(finalScore);
 
-                      {isAnswerChecked &&
-                        quizCard === selectedDeck.cards.length - 1 && (
-                             <button
-      type="button"
-      onClick={() => {
-        const finalScore =
-          quizScore +
-          (selectedAnswer === selectedDeck.cards[quizCard].answer ? 1 : 0);
+    const quizResult = {
+      deckId: selectedDeck.id,
+      deckTitle: selectedDeck.title,
+      score: finalScore,
+      totalQuestions: selectedDeck.cards.length,
+      percentage: Math.round(
+        (finalScore / selectedDeck.cards.length) * 100
+      ),
+      date: new Date().toISOString(),
+    };
 
-        const quizResult = {
-          deckId: selectedDeck.id,
-          deckTitle: selectedDeck.title,
-          score: finalScore,
-          totalQuestions: selectedDeck.cards.length,
-          percentage: Math.round(
-            (finalScore / selectedDeck.cards.length) * 100
-          ),
-          date: new Date().toISOString(),
-        };
+    localStorage.setItem(
+      "lastQuizResult",
+      JSON.stringify(quizResult)
+    );
 
-        localStorage.setItem(
-          "lastQuizResult",
-          JSON.stringify(quizResult)
-        );
-
-        recordStudySession();
-        setIsQuizCompleted(true);
-      }}
-    >
-      Quiz Completed
-    </button>
+    recordStudySession();
+    setIsQuizCompleted(true);
+  }}
+>
+  Submit Quiz
+</button>
                         )}
                     </section>
                   </main>
