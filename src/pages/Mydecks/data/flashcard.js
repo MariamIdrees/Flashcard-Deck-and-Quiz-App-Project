@@ -146,7 +146,7 @@ const decks = [
       {
         id: 2,
         question: "What foods gives us energy?",
-        answer: "Rice, Yam, and other carbohydtate-rich foods",
+        answer: "Rice, Yam, and other carbohydrate-rich foods",
         options: [
           "Rice, Yam, and other carbohydrate-rich foods",
           "Protein-rich foods",
@@ -205,7 +205,7 @@ const decks = [
         id: 9,
         question: "Why are fruits and vegetables important?",
         answer:
-          "They are important because they provide vitamins, minerals and fiber for the bosdy",
+          "They are important because they provide vitamins, minerals and fiber for the body",
         options: [
           "They are important because they provide vitamins, minerals and fiber for the body",
           "Because they are cheap",
@@ -254,7 +254,7 @@ const decks = [
       {
         id: 4,
         question: "What country has the most islands?",
-        answer: "Sweden (Over 200,000 Islands)",
+        answer: "Sweden",
         options: ["Sweden", "Greece", "Indonesia", "Philippines"],
       },
       {
@@ -340,7 +340,7 @@ const decks = [
       {
         id: 1,
         question: "What does 'sannu' mean?",
-        answer: "Hello, Welcome, Sorry",
+        answer: "Hello",
         options: ["Hello", "Welcome", "Sorry", "Goodbye"],
       },
       {

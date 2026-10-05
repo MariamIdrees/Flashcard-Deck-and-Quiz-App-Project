@@ -12,10 +12,22 @@ const Mydecks = () => {
 
 
   const [myDecks, setMyDecks] = useState(() => {
-    const savedDecks = localStorage.getItem("myDecks");
+  const savedDecks = localStorage.getItem("myDecks");
 
-    return savedDecks ? JSON.parse(savedDecks) : decks;
-  });
+  if (!savedDecks) {
+    return decks;
+  }
+
+  const parsedDecks = JSON.parse(savedDecks);
+
+  // Keep only decks created by the user
+  const customDecks = parsedDecks.filter(
+    (deck) => !mainDeckIds.includes(deck.id)
+  );
+
+  // Always use the latest versions of the 4 built-in decks
+  return [...decks, ...customDecks];
+});
   const [selectedDeck, setSelectedDeck] = useState(null);
   const [currentCard, setCurrentCard] = useState(0);
   const [quizCard, setQuizCard] = useState(0);
@@ -482,6 +494,7 @@ useEffect(() => {
       setQuizCard(0);
       setQuizScore(0);
       setSelectedAnswer("");
+      setQuizAnswers({});
       setIsAnswerChecked(false);
     }}
   >
@@ -511,6 +524,20 @@ useEffect(() => {
                         </button>
                       ))}
 
+ 
+ <div className="quizNavigation">
+                      {quizCard > 0 && (
+  <button
+    type="button"
+    onClick={() => {
+      setQuizCard(quizCard - 1);
+      setSelectedAnswer(quizAnswers[quizCard - 1] || "");
+    }}
+  >
+       ← Previous
+  </button>
+)}
+
                     
 
                     {quizCard < selectedDeck.cards.length - 1 && (
@@ -522,21 +549,38 @@ useEffect(() => {
       setSelectedAnswer(quizAnswers[quizCard + 1] || "");
     }}
   >
-    Next Question
+     Next →
   </button>
 )}
+
+</div>
                      {quizCard === selectedDeck.cards.length - 1 && (
        <button
   type="button"
   disabled={!quizAnswers[quizCard]}
   onClick={() => {
-    let finalScore = 0;
+   const finalAnswers = {
+  ...quizAnswers,
+  [quizCard]: selectedAnswer,
+};
 
-    selectedDeck.cards.forEach((card, index) => {
-      if (quizAnswers[index] === card.answer) {
-        finalScore++;
-      }
-    });
+let finalScore = 0;
+
+selectedDeck.cards.forEach((card, index) => {
+  console.log(
+    `Question ${index + 1}:`,
+    "Selected =", finalAnswers[index],
+    "Correct =", card.answer,
+    "Match =", finalAnswers[index] === card.answer
+  );
+
+if (
+  finalAnswers[index]?.trim().toLowerCase() ===
+  card.answer?.trim().toLowerCase()
+) {
+  finalScore++;
+}
+});
 
     setQuizScore(finalScore);
 
