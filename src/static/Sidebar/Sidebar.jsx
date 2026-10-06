@@ -105,14 +105,12 @@ const Sidebar = () => {
         className={`sidebar ${isOpen ? "open" : ""}`}
         aria-label="Main navigation"
       >
-        <div className="sidebarLogo" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '40px' }}>
+        {/* Top: Logo only */}
+        <div className="sidebarLogo" style={{ display: 'flex', alignItems: 'center' }}>
           <img src="/recallicon3.jpeg" alt="recall logo" />
-          
-          <div style={{ marginTop: '12px' }}>
-            <Profile />
-          </div>
         </div>
 
+        {/* Middle: Navigation Links */}
         <nav className="sidebarNav">
           {navigation.map(({ to, label, Icon, end }) => (
             <NavLink
@@ -130,10 +128,13 @@ const Sidebar = () => {
           ))}
         </nav>
 
-        <div className="sidebarBottom">
-          <div className="sidebarLink sidebarStatus">
-            <Flame size={19} aria-hidden="true" />
-            <span>Streak: {streak} days</span>
+        <div className="sidebarBottom" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', width: '100%', boxSizing: 'border-box' }}>
+          <Profile />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap', color: '#e8eaed' }}>
+            <Flame size={18} color="#f97316" aria-hidden="true" />
+            <span style={{ fontSize: '13px', fontWeight: '500' }}>
+              {streak} {streak === 1 ? 'day' : 'days'}
+            </span>
           </div>
         </div>
       </aside>

@@ -4,6 +4,7 @@ import { supabase } from '../../../supabaseClient';
 export default function Profile() {
   const [userId, setUserId] = useState(null);
   const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
   const [uploading, setUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,15 +27,33 @@ export default function Profile() {
         setUserId(user.id);
         setEmail(user.email);
         
+        let nameToSet = '';
+
+        // 1. Check user metadata first (where signup name often lives)
+        if (user.user_metadata?.full_name) {
+          nameToSet = user.user_metadata.full_name;
+        } else if (user.user_metadata?.name) {
+          nameToSet = user.user_metadata.name;
+        }
+
+        // 2. Check the profiles table in Supabase (using maybeSingle to prevent errors if row is missing)
         const { data } = await supabase
           .from('profiles')
-          .select('avatar_url')
+          .select('avatar_url, full_name')
           .eq('id', user.id)
-          .single();
+          .maybeSingle();
           
-        if (data?.avatar_url) {
-          setAvatarUrl(data.avatar_url);
+        if (data) {
+          if (data.avatar_url) setAvatarUrl(data.avatar_url);
+          if (data.full_name) nameToSet = data.full_name;
         }
+
+        // 3. Final fallback: Use the part of the email before '@' if no name is found anywhere
+        if (!nameToSet && user.email) {
+          nameToSet = user.email.split('@')[0];
+        }
+
+        setFullName(nameToSet);
       }
     };
     fetchUser();
@@ -79,7 +98,6 @@ export default function Profile() {
     if (error) {
       alert('Error signing out: ' + error.message);
     } else {
-      // Force reload or let your router handle redirecting to login
       window.location.href = '/'; 
     }
   };
@@ -107,20 +125,23 @@ export default function Profile() {
           />
         ) : (
           <div style={{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#5f6368', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', fontWeight: 'bold' }}>
-            {email ? email[0].toUpperCase() : 'U'}
+            {fullName ? fullName[0].toUpperCase() : (email ? email[0].toUpperCase() : 'U')}
           </div>
         )}
       </button>
 
-      {/* Popover Card */}
+      {/* Popover Card - Opens Upwards */}
       {isMenuOpen && (
         <div style={{
-          position: 'absolute', top: '45px', left: '-100px', width: '220px',
+          position: 'absolute', bottom: '50px', left: '0px', width: '220px',
           backgroundColor: '#303134', color: '#e8eaed', borderRadius: '8px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.4)', padding: '15px', zIndex: 1000,
+          boxShadow: '0 -4px 12px rgba(0,0,0,0.4)', padding: '15px', zIndex: 1000,
           textAlign: 'center', fontFamily: 'sans-serif'
         }}>
-          <p style={{ margin: '0 0 2px 0', fontSize: '14px', fontWeight: 'bold', color: '#fff' }}>Chiamaka Ododo</p>
+          {/* Dynamic Full Name */}
+          <p style={{ margin: '0 0 2px 0', fontSize: '14px', fontWeight: 'bold', color: '#fff' }}>
+            {fullName || 'User'}
+          </p>
           <p style={{ margin: '0 0 12px 0', fontSize: '11px', color: '#aaa', wordBreak: 'break-all' }}>{email}</p>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
