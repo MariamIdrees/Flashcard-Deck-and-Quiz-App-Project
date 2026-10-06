@@ -90,7 +90,7 @@ if (currentHour < 12) {
     <div className="bigcardWrapper">
 
        <div className="bigcardFirstcard">
-          <h5> TODAY'S GOAL </h5>
+          <h5> TODAY'S GOAL... </h5>
           <h4>10 cards can make a big difference </h4>
           <p>10 cards left to hit today's goal. You have 0 cards waiting for review.</p>
        
@@ -122,7 +122,7 @@ if (currentHour < 12) {
     </div>
                     
 <div className="lastquizCard">
-  <div className="lastQuizLeft">
+  
     <h6 className="text-green-800 font-bold text-[10px]">LAST QUIZ</h6>
 
     <h3>
@@ -134,15 +134,12 @@ if (currentHour < 12) {
         ? `${lastQuiz.score}/${lastQuiz.totalQuestions} correct`
         : "Take a quiz to see your result"}
     </p>
-  </div>
-
-  <div className="lastQuizRight">
-    <strong>
+     <strong>
       {lastQuiz ? `${lastQuiz.percentage}%` : "--"}
     </strong>
 
-    <p className="text-green-700 text-[12px] font-bold">See stats →</p>
-  </div>
+ 
+
 </div>
 
 

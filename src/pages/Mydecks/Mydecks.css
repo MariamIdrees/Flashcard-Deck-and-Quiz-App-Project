@@ -9,10 +9,10 @@
 }
 .deckButton{
     /* background-color: aquamarine; */
-    width: 90vw;
+    width: 70vw;
     display: flex;
     justify-content: space-between;
-  
+
 
     h1{
         font-size: 30px;
@@ -32,6 +32,7 @@
 .allDecks{
   /* background-color: purple; */
     margin-top: 20px;
+    width: 80vw;
     h1{
         font-size: 30px;
         font-weight: bold;
@@ -41,36 +42,20 @@
     /* background-color: aqua; */
     display: flex;
     justify-content: space-between;
-    width: 90vw;
+    width: 80vw;
     color: #90909A;
     font-size: 15px;
 }
 
-/* .searchDeck{
-    margin-top: 10px;
-    display: flex;
-    gap: 20px;
-}
 
-.searchbigDeck{
- width: 55vw;
- height: 45px;
- border-radius: 15px;
- background-color: white;
- border: #8D8D99;
-}
-
-.findDeck{
- width: 15vw;
- height: 45px;
- border-radius: 15px;
- background-color: white;
- cursor: pointer;
-} */
 
 .flashcardGrid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   
-  width: 400px;
+  width: 70vw;
   margin: 50px auto;
 
   button{
@@ -85,9 +70,8 @@
 }
 
 .flashcardButtons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin-top: 20px;
   width: 100%;
@@ -95,6 +79,13 @@
 .nextCardButton {
   flex-shrink: 0;
 }
+
+/* .backDeckButton{
+  background-color: red;
+  width: 100vw;
+ 
+} */
+
 .deckList {
   display: grid;
   justify-content: center;
@@ -423,28 +414,10 @@
 .deckMenu button:hover {
   background-color: #f3f3f3;
 }
-/* .nextCardButton {
-  flex-shrink: 0;
-  cursor: pointer;
-  width: 110px;
-  padding: 12px 16px;
-  border: none;
-  border-radius: 8px;
-  background-color: #6545db;
-  color: white;
-  font-weight: 600;
-  font-size: 15px;
-  transition: 0.2s ease;
-  white-space: nowrap;
-}
 
-.nextCardButton:hover {
-  opacity: 0.85;
-  transform: translateY(-1px);
-} */
 
 .backDeckButton{
-  background-color:coral;
+  background-color: rgb(17, 68, 88);
   color:  white;
   padding: 10px 20px;
   border-radius: 8px;
@@ -473,11 +446,11 @@
 .deleteCardButton{
   background-color:darkorange;
   color: white;
-  /* padding: 10px 10px;
+  padding: 10px 10px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  font-weight: bold; */
+  font-weight: bold;
 }
 
 
@@ -602,10 +575,6 @@
 }
 
 @media (max-width:500px) {
-
-  
- 
-
   .allDecks{
     /* background-color: slateblue; */
     margin-top: 20px;
@@ -619,11 +588,19 @@
   .deckButton{
     display: flex;
     justify-content: space-between;
-    width: 75vw;
+    width: 70vw;
+
+    button{
+      /* background-color: yellow; */
+        padding: 8px 10px;
+        font-size: 14px;
+        margin-right: 50px;
+    }
   }
 
 
     .deckList {
+      /* background-color: lightblue; */
       display: grid;
         grid-template-columns: 1fr;
         gap: 30px;
@@ -641,32 +618,43 @@
         height: 200px;
     }
     .quizContainer {
-  width: 100%;
-  max-width: 100%;
-  padding: 15px;
-  box-sizing: border-box;
+      /* background-color: mediumaquamarine; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+     width: 80%;
+
 }
 
 .quizHeader {
+  /* background-color: coral; */
   width: 100%;
   gap: 10px;
 }
 
 .quizHeader h2 {
+  /* background-color: red; */
   font-size: 22px;
 }
 
 .quizContainer h3 {
+  /* background-color: yellow; */
   font-size: 18px;
   line-height: 1.4;
 }
 
 .quizOptions {
+  /* background-color: pink; */
   width: 100%;
   gap: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .quizOptions button {
+  /* background-color: blue; */
   width: 100%;
   min-height: 45px;
   padding: 10px 12px;
@@ -680,18 +668,6 @@
   gap: 15px;
 }
 
-
-.flashcardButtons {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 10px;
-}
-
-.flashcardButtons button {
-  width: 100%;
-  max-width: 300px;
-}
 .createDeckForm {
   width: 100%;
   max-width: 100%;
@@ -765,21 +741,20 @@
 
 
 .flashcardButtons {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* background-color: red; */
+  /* display: grid;
   justify-content: center;
-  gap: 10px;
-  margin: 20px auto 0;
-  padding: 0;
-  box-sizing: border-box;
+  align-items: center; */
+  /* margin-left: 400px; */
+  margin: auto;
+
+  button{
+    width: 40vw;
+  }
+ 
 }
 
-.flashcardButtons button {
-  width: 300px;
-  max-width: 90%;
-} 
+
 
 .flashcardGrid{
   width: 400px;

@@ -196,7 +196,15 @@ useEffect(() => {
 
         <div className="deckButton">
           <h1>My decks</h1>
-          <button onClick={() => setIsCreatingDeck(true)}> + New Deck </button>
+         <button
+  onClick={() => {
+    setIsCreatingDeck(true);
+    setIsQuiz(false);
+    setSelectedDeck(null);
+  }}
+>
+  + New Deck
+</button>
         </div>
 
         <div className="allDecks">

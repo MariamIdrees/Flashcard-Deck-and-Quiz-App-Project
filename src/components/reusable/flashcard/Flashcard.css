@@ -58,14 +58,14 @@
 
 .flashcardButtons {
     /* background-color: red; */
-  /* display: flex;
-  flex-direction: column; */
+ 
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr ;
   gap: 15px;
   margin-top: 20px;
   /* align-items: center; */
-  width: 100%;
+  width: 30%;
+  margin-right: 60px
   
 }
 
@@ -77,14 +77,24 @@
 
     .flashcard{
        
-        width: 90%;
-        height: 100%;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+
+       
+        /* width: 90%;
+        height: 100%; */
         font-size: 15px;
         margin:auto
     }
     .flashcardButtons {
+        /* background-color: red; */
         gap: 10px;
-        width: 100%;
+        /* width: 20%; */
+  /* margin-left: 250px; */
+  margin: auto;
+
+  
     }
      .flashcardGrid {
         width: 90vw;
@@ -112,5 +122,19 @@
      .flashcardGrid {
         width: 90vw;
     }
+    
+}
+
+@media (max-width:500px) {
+    /* .flashcardButtons {
+      
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 100%;
+    } */
+     /* .flashcardGrid {
+        width: 90vw;
+    } */
     
 }
