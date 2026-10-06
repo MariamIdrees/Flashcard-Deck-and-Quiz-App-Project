@@ -173,15 +173,29 @@
   font-weight: bold;
 }
 
-.lastquizCard {
-  width: 90vw;
+ .lastquizCard {
+  background-color: yellow;
+  width: 80vw;
   height: 50px;
-  display: flex;
+   display: flex;
+  justify-content: space-between;
+  align-items: center; 
   background-color: white;
   border-radius: 20px;
   margin-top: 30px;
-}
+} 
 
+/* .lastQuizLeft{
+  background-color: red;
+    width: 80vw;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-radius: 20px;
+  margin-top: 30px;
+} */
 .dashboardDeck {
   display: flex;
   justify-content: space-between;
@@ -368,16 +382,18 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-left: 20px;
+    /* margin-left: 20px; */
 
     h5 {
-      color: #008000;
-      font-size: 12px;
+      color: white;
+      font-size: 10px;
+      text-align: center;
     }
     h4 {
-      font-size: 15px;
+      font-size: 30px;
       font-weight: bold;
       text-align: center;
+      /* background-color: red; */
     
     }
 
@@ -388,10 +404,10 @@
   }
   .lastquizCard {
     width: 80vw;
-    height: 100px;
+    height: 150px;
     display: grid;
-    /* justify-content: center;
-    align-items: center; */
+    justify-content: center;
+    align-items: center;
     background-color: white;
     border-radius: 20px;
     margin-top: 30px;
