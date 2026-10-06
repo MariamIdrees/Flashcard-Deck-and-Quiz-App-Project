@@ -1,14 +1,10 @@
-.dashboardContainer {
+ .dashboardContainer {
   display: flex;
   background-color: #f7f7fb;
   width: 100vw;
   height: 100vh;
   align-items: start;
-}
-
-/* .dashhboardOverflow{
-    
-} */
+} 
 
 .dashboardIcon{
   display: none;
@@ -28,12 +24,14 @@
 
 .dashboard {
   /* display: flex; */
+  width: 100vw;
   height: 100vh;
   flex: 1;
   overflow-y: scroll;
 }
 
 .dashboardText {
+  width: 90%;
   p {
     font-size: 15px;
     font-weight: 800;
@@ -51,8 +49,9 @@
   /* background-color: saddlebrown; */
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 10px;
   align-items: center;
+  /* width: 100%; */
 }
 
 .smallcard {
@@ -60,7 +59,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 210px;
+  width: 90%;
   height: 90px;
   border-radius: 20px;
   background-color: white;
@@ -175,7 +174,7 @@
 }
 
 .lastquizCard {
-  width: 75vw;
+  width: 90vw;
   height: 50px;
   display: flex;
   background-color: white;
@@ -322,8 +321,9 @@
    
     
   }
-  .dashboard {
-    text-align: center;
+ .dashboard {
+  /* background-color: #1515e6; */
+  
   }
 
   .dashboardHeader {
@@ -334,6 +334,7 @@
   }
 
   .dashboardText {
+
    
     p {
       text-align: center;
@@ -343,20 +344,26 @@
   .smallcardContainer {
     max-width: 90%;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+   padding-bottom: 20px;
     margin: 10px 30px;
   
   }
   .bigcardContainer {
     height: 300px;
     width: 90%;
+    display: flex;
+    justify-content: center;  
+    align-items: center;
   }
   .bigcardSecondcard {
     display: none;
   }
 
   .bigcardFirstcard {
+    width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -378,6 +385,23 @@
 
   .dashboardDeck {
     display: grid;
+  }
+  .lastquizCard {
+    width: 80vw;
+    height: 100px;
+    display: grid;
+    /* justify-content: center;
+    align-items: center; */
+    background-color: white;
+    border-radius: 20px;
+    margin-top: 30px;
+  }
+
+  .dashboardDeckList {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+    margin-top: 20px;
   }
 }
 

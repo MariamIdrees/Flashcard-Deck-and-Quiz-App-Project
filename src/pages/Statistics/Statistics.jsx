@@ -42,6 +42,11 @@ const Statistics = () => {
     return 0;
     };
 
+    const totalCards = myDecks.reduce(
+    (total, deck) => total + deck.cards.length, 0);
+    const cardsMastered = lastQuiz ? lastQuiz.score : 0;
+    const cardsLearning = totalCards - cardsMastered;
+
     const getCurrentStreak = () => {
     if (studyActivity.length === 0) return 0;
     const dates = [...new Set(studyActivity)].sort().reverse();
@@ -81,13 +86,13 @@ const Statistics = () => {
           </div>
 
           <div className="h-24 w-full rounded-[20px] bg-white flex flex-col items-center justify-center ">
-            <h1 className="text-[20px] font-bold"> 0 </h1>
+            <h1 className="text-[20px] font-bold"> {lastQuiz ? lastQuiz.score : 0}</h1>
             <p className="text-[13px] text-gray-400"> Cards mastered </p>
           </div>
 
           <div className="h-24 w-full rounded-[20px] bg-white     flex flex-col items-center justify-center ">
-            <h1 className="text-[20px] font-bold"> 0 </h1>
-            <p className="text-[13px] text-gray-400"> Cards learning </p>
+            <h1 className="text-[20px] font-bold"> {cardsLearning} </h1>
+            <p className="text-[13px] text-gray-400"> Total cards learning </p>
           </div>
 
           <div className="h-24 w-full rounded-[20px] bg-white     flex flex-col items-center justify-center ">
@@ -99,38 +104,41 @@ const Statistics = () => {
 {/* Big Cards */}
         {/* <div className="flex flex-wrap justify-between gap-y-10"> */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+
 {/* card 1 */}
-          <div className="w-full rounded-3xl bg-[#d64f9c] p-6 sm:p-6 shadow-sm border border-gray-50 flex flex-col justify-between min-h-60 text-left">
+          <div className="w-full max-w-xl rounded-3xl bg-[#19B394] p-5 sm:p-6 shadow-sm border border-gray-50 flex flex-col justify-between min-h-65">
 
-            <div className="flex justify-between items-start w-full gap-9">
-              <div className="">
-                <h1 className="text-[22px] sm:text-[18px]  font-bold text-[#FFFFFF]"> Mastery overview </h1>
-                <p className="text-[13px] text-[#000000]mt-0.5"> How far your cards have progressed. </p>
+            <div className="flex justify-between items-start w-full gap-2">
+              <div>
+                <h1 className="text-[22px] sm:text-[18px] font-bold text-[#ffffff]"> Quiz performance </h1>
+                <p className="text-[13px] text-black mt-0.5"> Your most recent attempts. </p>
               </div>
-              <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center">
-                {lastQuiz ? `${lastQuiz.percentage}%` : "0%"}
+              <div className="bg-[#097e66] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
+              {lastQuiz ? "1 attempt" : "0 attempts"}
               </div>
             </div>
 
-            <div className="w-full h-3 bg-[#f0edff] rounded-full my-4">
-              <div
-                className="h-full bg-[#F0F1F5] rounded-full"
-                style={{
-                  width: lastQuiz ? `${lastQuiz.percentage}%` : "0%"
-                }}
-              ></div>
-            </div>
+            <div className="w-full min-h-25 border border-dashed border-gray-200 rounded-2xl flex items-center justify-center p-4 mt-4">
 
-            <div className="flex gap-4 text-[13px] text-black mt-0.5">
-              <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              0 mastered
-              </div>
-              <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              0 learning
-              </div>
-              <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              0 new
-              </div>
+              {lastQuiz ? (
+                <div className="flex items-center justify-between w-full">
+                  <div>
+                    <p className="text-[15px] font-bold text-white">
+                      {lastQuiz.deckTitle}
+                    </p>
+                    <p className="text-[13px] text-white">
+                      {lastQuiz.score}/{lastQuiz.totalQuestions} correct
+                    </p>
+                  </div>
+                  <p className="text-[24px] font-bold text-white">
+                    {lastQuiz.percentage}%
+                  </p>
+                </div>
+              ) : (
+                <p className="text-[14px] text-white text-center">
+                  Take your first quiz to see performance here.
+                </p>
+              )}
             </div>
 
           </div>
@@ -157,8 +165,8 @@ const Statistics = () => {
       <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
         <div
           className={`${
-            getStudyDay("Fri") ? "h-16" : "h-4"
-          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
+            getStudyDay("Fri") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
         ></div>
       </div>
 
@@ -173,8 +181,8 @@ const Statistics = () => {
       <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
         <div
           className={`${
-            getStudyDay("Sat") ? "h-16" : "h-4"
-          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
+            getStudyDay("Sat") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
         ></div>
       </div>
 
@@ -189,7 +197,7 @@ const Statistics = () => {
       <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
         <div
           className={`${
-            getStudyDay("Sun") ? "h-16 bg-[#05173d]" : "h-4 bg-[#C7CDDB]"
+            getStudyDay("Sun") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
           } w-full rounded-b-mb sm:rounded-b-lg`}
         ></div>
       </div>
@@ -205,8 +213,8 @@ const Statistics = () => {
       <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
         <div
           className={`${
-            getStudyDay("Mon") ? "h-16" : "h-4"
-          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
+            getStudyDay("Mon") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
         ></div>
       </div>
 
@@ -221,7 +229,7 @@ const Statistics = () => {
       <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
         <div
           className={`${
-            getStudyDay("Tue") ? "h-16 bg-[#05173d]" : "h-4 bg-[#C7CDDB]"
+            getStudyDay("Tue") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
           } w-full rounded-b-mb sm:rounded-b-lg`}
         ></div>
       </div>
@@ -237,8 +245,8 @@ const Statistics = () => {
       <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
         <div
           className={`${
-            getStudyDay("Wed") ? "h-16" : "h-4"
-          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
+            getStudyDay("Wed") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
         ></div>
       </div>
 
@@ -253,8 +261,8 @@ const Statistics = () => {
       <div className="w-full max-w-7 sm:max-w-9 h-20 sm:h-24 bg-[#F0F1F5] rounded-md sm:rounded-lg relative overflow-hidden flex items-end">
         <div
           className={`${
-            getStudyDay("Thur") ? "h-16" : "h-4"
-          } bg-[#C7CDDB] w-full rounded-b-mb sm:rounded-b-lg`}
+            getStudyDay("Thur") ? "h-16 bg-[#05173d]" : "h-2 bg-[#C7CDDB]"
+          } w-full rounded-b-mb sm:rounded-b-lg`}
         ></div>
       </div>
 
@@ -268,6 +276,39 @@ const Statistics = () => {
         </div>
 
 {/* card 3 */}
+          <div className="w-full rounded-3xl bg-[#d64f9c] p-6 sm:p-6 shadow-sm border border-gray-50 flex flex-col justify-between min-h-60 text-left">
+
+            <div className="flex justify-between items-start w-full gap-9">
+              <div className="">
+                <h1 className="text-[22px] sm:text-[18px]  font-bold text-[#FFFFFF]"> Mastery overview </h1>
+                <p className="text-[13px] text-[#000000]mt-0.5"> How far your cards have progressed. </p>
+              </div>
+              <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center">
+                {lastQuiz ? `${lastQuiz.percentage}%` : "0%"}
+              </div>
+            </div>
+
+            <div className="w-full h-3 bg-[#f0edff] rounded-full my-4">
+              <div
+                className="h-full bg-[#F0F1F5] rounded-full"
+                style={{
+                  width: lastQuiz ? `${lastQuiz.percentage}%` : "0%"
+                }}
+              ></div>
+            </div>
+
+            <div className="flex gap-4 text-[13px] text-black mt-0.5">
+              <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
+              {lastQuiz ? `${lastQuiz.score} mastered` : "0 mastered"}
+              </div>
+              <div className="bg-[#b32977] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
+              {cardsLearning} learning
+              </div>
+            </div>
+
+          </div>
+
+{/* card 4 */}
          {/* <div className="h-70 w-120 rounded-[20px] bg-white     flex flex-col gap-5"> */}
         <div className="w-full max-w-xl rounded-3xl bg-[#FF7A59] p-5 sm:p-6 shadow-sm border border-gray-50 flex flex-col justify-between min-h-65 gap-3">
 
@@ -312,44 +353,6 @@ const Statistics = () => {
 
       </div>
 
-{/* card 4 */}
-          <div className="w-full max-w-xl rounded-3xl bg-[#19B394] p-5 sm:p-6 shadow-sm border border-gray-50 flex flex-col justify-between min-h-65">
-
-            <div className="flex justify-between items-start w-full gap-2">
-              <div>
-                <h1 className="text-[22px] sm:text-[18px] font-bold text-[#ffffff]"> Quiz performance </h1>
-                <p className="text-[13px] text-black mt-0.5"> Your most recent attempts. </p>
-              </div>
-              <div className="bg-[#097e66] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center shrink-0 whitespace-nowrap">
-              {lastQuiz ? "1 attempt" : "0 attempts"}
-              </div>
-            </div>
-
-            <div className="w-full min-h-25 border border-dashed border-gray-200 rounded-2xl flex items-center justify-center p-4 mt-4">
-
-              {lastQuiz ? (
-                <div className="flex items-center justify-between w-full">
-                  <div>
-                    <p className="text-[15px] font-bold text-white">
-                      {lastQuiz.deckTitle}
-                    </p>
-                    <p className="text-[13px] text-white">
-                      {lastQuiz.score}/{lastQuiz.totalQuestions} correct
-                    </p>
-                  </div>
-                  <p className="text-[24px] font-bold text-white">
-                    {lastQuiz.percentage}%
-                  </p>
-                </div>
-              ) : (
-                <p className="text-[14px] text-white text-center">
-                  Take your first quiz to see performance here.
-                </p>
-              )}
-            </div>
-
-          </div>
-
       </div>
 
 {/* Last Card */}
@@ -358,7 +361,7 @@ const Statistics = () => {
             <div className="flex justify-between items-start w-full">
               <div>
                 <h2 className="text-[22px] sm:text-[18px] font-bold text-white">Mastery by deck</h2>
-                <p className="text-[13px] text-black mt-0.5">Calculated from your latest difficulty ratings.</p>
+                <p className="text-[13px] text-black mt-0.5"> A general overview of all your cards. </p>
               </div>
               <div className="bg-[#054e05] text-[13px] font-semibold text-[#ffffff] rounded-xl px-3 py-1.5 flex items-center justify-center">
                 {lastQuiz ? `${lastQuiz.percentage}% overall` : "0% overall"}

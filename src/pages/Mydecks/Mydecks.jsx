@@ -12,10 +12,22 @@ const Mydecks = () => {
 
 
   const [myDecks, setMyDecks] = useState(() => {
-    const savedDecks = localStorage.getItem("myDecks");
+  const savedDecks = localStorage.getItem("myDecks");
 
-    return savedDecks ? JSON.parse(savedDecks) : decks;
-  });
+  if (!savedDecks) {
+    return decks;
+  }
+
+  const parsedDecks = JSON.parse(savedDecks);
+
+  // Keep only decks created by the user
+  const customDecks = parsedDecks.filter(
+    (deck) => !mainDeckIds.includes(deck.id)
+  );
+
+  // Always use the latest versions of the 4 built-in decks
+  return [...decks, ...customDecks];
+});
   const [selectedDeck, setSelectedDeck] = useState(null);
   const [currentCard, setCurrentCard] = useState(0);
   const [quizCard, setQuizCard] = useState(0);
@@ -23,6 +35,7 @@ const Mydecks = () => {
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [quizOptions, setQuizOptions] = useState([]);
   const [quizScore, setQuizScore] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState({});
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const [isAnswerChecked, setIsAnswerChecked] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -52,6 +65,7 @@ const Mydecks = () => {
       } else {
         setQuizOptions([]);
       }
+      setSelectedAnswer(quizAnswers[quizCard] || "");
     }
   }, [quizCard, isQuiz, selectedDeck]);
 
@@ -480,6 +494,7 @@ useEffect(() => {
       setQuizCard(0);
       setQuizScore(0);
       setSelectedAnswer("");
+      setQuizAnswers({});
       setIsAnswerChecked(false);
     }}
   >
@@ -493,7 +508,6 @@ useEffect(() => {
                            <h2>Quiz</h2>
                          <span>{quizCard + 1}/{selectedDeck.cards.length} </span>
                          </div>
-                        <p> Score: {quizScore}/{selectedDeck.cards.length}</p>
                     <h3> {selectedDeck.cards[quizCard].question} </h3>
 
                     <section className="quizOptions">
@@ -504,85 +518,94 @@ useEffect(() => {
                           className={
                             selectedAnswer === option ? "selectedOption" : ""
                           }
-                          onClick={() => setSelectedAnswer(option)}
-                        >
+                          onClick={() => {setSelectedAnswer(option); setQuizAnswers({ ...quizAnswers,
+                          [quizCard]: option, });}} >
                           {option}
                         </button>
                       ))}
 
-                      <button
-                        type="button"
-                        disabled={!selectedAnswer || isAnswerChecked}
-                        onClick={() => {
-                          if (
-                            selectedAnswer ===
-                            selectedDeck.cards[quizCard].answer
-                          ) {
-                            setQuizScore(quizScore + 1);
-                          }
+ 
+ <div className="quizNavigation">
+                      {quizCard > 0 && (
+  <button
+    type="button"
+    onClick={() => {
+      setQuizCard(quizCard - 1);
+      setSelectedAnswer(quizAnswers[quizCard - 1] || "");
+    }}
+  >
+       ← Previous
+  </button>
+)}
 
-                          setIsAnswerChecked(true);
-                        }}
-                      >
-                        Check Answer
-                      </button>
+                    
 
-                      {isAnswerChecked && (
-                        <aside>
-                          {selectedAnswer ===
-                          selectedDeck.cards[quizCard].answer ? (
-                            <p>✅ Correct!</p>
-                          ) : (
-                            <p>❌ Wrong!</p>
-                          )}
-                        </aside>
-                      )}
+                    {quizCard < selectedDeck.cards.length - 1 && (
+  <button
+    type="button"
+    disabled={!quizAnswers[quizCard]}
+    onClick={() => {
+      setQuizCard(quizCard + 1);
+      setSelectedAnswer(quizAnswers[quizCard + 1] || "");
+    }}
+  >
+     Next →
+  </button>
+)}
 
-                      {isAnswerChecked &&
-                        quizCard < selectedDeck.cards.length - 1 && (
-                          <button 
-                            type="button"
-                            onClick={() => {
-                              setQuizCard(quizCard + 1);
-                              setSelectedAnswer("");
-                              setIsAnswerChecked(false);
-                            }}
-                          >
-                            Next Question
-                          </button>
-                        )}
+</div>
+                     {quizCard === selectedDeck.cards.length - 1 && (
+       <button
+  type="button"
+  disabled={!quizAnswers[quizCard]}
+  onClick={() => {
+   const finalAnswers = {
+  ...quizAnswers,
+  [quizCard]: selectedAnswer,
+};
 
-                      {isAnswerChecked &&
-                        quizCard === selectedDeck.cards.length - 1 && (
-                             <button
-      type="button"
-      onClick={() => {
-        const finalScore =
-          quizScore +
-          (selectedAnswer === selectedDeck.cards[quizCard].answer ? 1 : 0);
+let finalScore = 0;
 
-        const quizResult = {
-          deckId: selectedDeck.id,
-          deckTitle: selectedDeck.title,
-          score: finalScore,
-          totalQuestions: selectedDeck.cards.length,
-          percentage: Math.round(
-            (finalScore / selectedDeck.cards.length) * 100
-          ),
-          date: new Date().toISOString(),
-        };
+selectedDeck.cards.forEach((card, index) => {
+  console.log(
+    `Question ${index + 1}:`,
+    "Selected =", finalAnswers[index],
+    "Correct =", card.answer,
+    "Match =", finalAnswers[index] === card.answer
+  );
 
-        localStorage.setItem(
-          "lastQuizResult",
-          JSON.stringify(quizResult)
-        );
+if (
+  finalAnswers[index]?.trim().toLowerCase() ===
+  card.answer?.trim().toLowerCase()
+) {
+  finalScore++;
+}
+});
 
-        recordStudySession();
-        setIsQuizCompleted(true);
-      }}
-    >
-      Quiz Completed
-    </button>
+    setQuizScore(finalScore);
+
+    const quizResult = {
+      deckId: selectedDeck.id,
+      deckTitle: selectedDeck.title,
+      score: finalScore,
+      totalQuestions: selectedDeck.cards.length,
+      percentage: Math.round(
+        (finalScore / selectedDeck.cards.length) * 100
+      ),
+      date: new Date().toISOString(),
+    };
+
+    localStorage.setItem(
+      "lastQuizResult",
+      JSON.stringify(quizResult)
+    );
+
+    recordStudySession();
+    setIsQuizCompleted(true);
+  }}
+>
+  Submit Quiz
+</button>
                         )}
                     </section>
                   </main>
