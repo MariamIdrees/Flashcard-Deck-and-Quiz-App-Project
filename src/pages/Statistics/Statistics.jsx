@@ -356,7 +356,7 @@ const Statistics = () => {
       </div>
 
 {/* Last Card */}
-      <div className="w-full max-w-5xl rounded-3xl bg-[#008000] p-6 shadow-sm border border-gray-50 flex flex-col gap-6">
+      <div className="w-full max-w-5xl rounded-3xl bg-[#79d979] p-6 shadow-sm border border-gray-50 flex flex-col gap-6">
             
             <div className="flex justify-between items-start w-full">
               <div>
