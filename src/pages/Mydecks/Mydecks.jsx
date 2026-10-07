@@ -190,7 +190,7 @@ useEffect(() => {
 
 
   return (
-    <main>
+    <main className="mydecksMain">
       <div className="decksCointainer">
         <p className="library">LIBRARY</p>
 

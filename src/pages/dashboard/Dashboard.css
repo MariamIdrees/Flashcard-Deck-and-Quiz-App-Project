@@ -174,28 +174,18 @@
 }
 
  .lastquizCard {
-  background-color: yellow;
+  background-color: red;
   width: 80vw;
   height: 50px;
    display: flex;
   justify-content: space-between;
   align-items: center; 
-  background-color: white;
+  /* background-color: white; */
   border-radius: 20px;
   margin-top: 30px;
 } 
 
-/* .lastQuizLeft{
-  background-color: red;
-    width: 80vw;
-  height: 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  border-radius: 20px;
-  margin-top: 30px;
-} */
+
 .dashboardDeck {
   display: flex;
   justify-content: space-between;
@@ -304,13 +294,7 @@
   font-size: 24px;
 }
 
-.seeStats {
 
-  color: #008000;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-}
 
 
 
@@ -381,15 +365,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: column; 
     /* margin-left: 20px; */
 
     h5 {
-      color: white;
+      color: limegreen;
       font-size: 10px;
       text-align: center;
+   
     }
     h4 {
+      color: white;
       font-size: 30px;
       font-weight: bold;
       text-align: center;
@@ -398,6 +384,7 @@
     }
 
   }
+
 
   .dashboardDeck {
     display: grid;
@@ -480,4 +467,5 @@
   .bigcardSecondcard {
     display: none;
   }
+ 
 }
