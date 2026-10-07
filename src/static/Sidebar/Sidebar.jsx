@@ -105,12 +105,10 @@ const Sidebar = () => {
         className={`sidebar ${isOpen ? "open" : ""}`}
         aria-label="Main navigation"
       >
-        {/* Top: Logo only */}
         <div className="sidebarLogo" style={{ display: 'flex', alignItems: 'center' }}>
           <img src="/recallicon3.jpeg" alt="recall logo" />
         </div>
 
-        {/* Middle: Navigation Links */}
         <nav className="sidebarNav">
           {navigation.map(({ to, label, Icon, end }) => (
             <NavLink

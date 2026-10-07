@@ -29,14 +29,13 @@ export default function Profile() {
         
         let nameToSet = '';
 
-        // 1. Check user metadata first (where signup name often lives)
         if (user.user_metadata?.full_name) {
           nameToSet = user.user_metadata.full_name;
         } else if (user.user_metadata?.name) {
           nameToSet = user.user_metadata.name;
         }
 
-        // 2. Check the profiles table in Supabase (using maybeSingle to prevent errors if row is missing)
+      
         const { data } = await supabase
           .from('profiles')
           .select('avatar_url, full_name')
@@ -48,7 +47,6 @@ export default function Profile() {
           if (data.full_name) nameToSet = data.full_name;
         }
 
-        // 3. Final fallback: Use the part of the email before '@' if no name is found anywhere
         if (!nameToSet && user.email) {
           nameToSet = user.email.split('@')[0];
         }
@@ -107,7 +105,6 @@ export default function Profile() {
   return (
     <div ref={menuRef} style={{ position: 'relative', display: 'inline-block' }}>
       
-      {/* Avatar Button */}
       <button 
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         style={{ 
@@ -130,7 +127,6 @@ export default function Profile() {
         )}
       </button>
 
-      {/* Popover Card - Opens Upwards */}
       {isMenuOpen && (
         <div style={{
           position: 'absolute', bottom: '50px', left: '0px', width: '220px',
@@ -138,7 +134,7 @@ export default function Profile() {
           boxShadow: '0 -4px 12px rgba(0,0,0,0.4)', padding: '15px', zIndex: 1000,
           textAlign: 'center', fontFamily: 'sans-serif'
         }}>
-          {/* Dynamic Full Name */}
+        
           <p style={{ margin: '0 0 2px 0', fontSize: '14px', fontWeight: 'bold', color: '#fff' }}>
             {fullName || 'User'}
           </p>
