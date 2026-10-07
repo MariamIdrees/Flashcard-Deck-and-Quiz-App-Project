@@ -32,7 +32,7 @@
 .allDecks{
   /* background-color: purple; */
     margin-top: 20px;
-    width: 80vw;
+    width: 70vw;
     h1{
         font-size: 30px;
         font-weight: bold;
@@ -40,11 +40,11 @@
 }
 .deckp{
     /* background-color: aqua; */
-    display: flex;
-    justify-content: space-between;
+    /* display: flex;
+    justify-content: center;
     width: 80vw;
     color: #90909A;
-    font-size: 15px;
+    font-size: 15px; */
 }
 
 
@@ -277,7 +277,8 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 100%;
+  width: 60%;
+  margin: 0 auto;
 }
 
 .quizOptions button {
@@ -575,10 +576,17 @@
 }
 
 @media (max-width:500px) {
+  .mydecksMain{
+    margin: 0 auto;
+  }
   .allDecks{
     /* background-color: slateblue; */
     margin-top: 20px;
-  
+    /* width: 90vw; */
+    margin-left:auto;
+    margin-right:auto;
+
+    
     h1{
         font-size: 30px;
         font-weight: bold;
@@ -586,9 +594,11 @@
     }
   }
   .deckButton{
+    /* background-color: red; */
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 70vw;
+    /* margin:auto */
 
     button{
       /* background-color: yellow; */
@@ -623,13 +633,17 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-     width: 80%;
+     width: 100%;
+     margin: 0 auto;
 
-}
+    
+    }
+
+
 
 .quizHeader {
   /* background-color: coral; */
-  width: 100%;
+  width: 80%;
   gap: 10px;
 }
 
@@ -646,16 +660,17 @@
 
 .quizOptions {
   /* background-color: pink; */
-  width: 100%;
+  width: 80%;
   gap: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
 }
 
 .quizOptions button {
   /* background-color: blue; */
-  width: 100%;
+  /* width: 100%; */
   min-height: 45px;
   padding: 10px 12px;
   font-size: 14px;
@@ -701,8 +716,8 @@
   box-sizing: border-box;
 }
 
-
 }
+
 
 
 
