@@ -1,16 +1,72 @@
-# React + Vite
+# 🧠 Recall - Flashcard Deck and Quiz App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Live Demo](https://img.shields.io/badge/status-live-brightgreen)](https://flashcard-deck-and-quiz-app-project.vercel.app/)
 
-Currently, two official plugins are available:
+> **Live Preview:** [Check out the live app here](https://flashcard-deck-and-quiz-app-project.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Recall is a modern, interactive web application designed to help users efficiently learn, organize study decks, and test their knowledge through quizzes. Built with React, Vite, and Supabase, it features secure authentication, custom decks, streak tracking, and a clean responsive UI.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
 
-## Expanding the ESLint configuration
+**Secure Authentication:** User signup, login, and session management powered by Supabase Auth.
+**Interactive Flashcard Decks:** Create, organize, and review custom study decks (`/Mydecks`).
+**Quiz & Review System:** Test your understanding with dedicated review modes (`/Review`).
+**Study Statistics & Streaks:** Track your daily learning habits with dynamic streak tracking and statistical insights (`/Statistics`).
+**Responsive Sidebar Navigation:** Seamless mobile-friendly navigation powered by Lucide icons and React Router.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+**Frontend:** React, React Router, Vite
+**Backend & Auth:** Supabase
+**Styling:** Custom CSS, Lucide React (Icons)
+**Storage:** Supabase database & LocalStorage for tracking study activity and streaks
+
+---
+
+## 🚀 Getting Started Locally
+
+To run this project on your local machine, follow these steps:
+
+### 1. Clone the repository
+```bash
+git clone [https://github.com/MariamIdrees/Flashcard-Deck-and-Quiz-App-Project.git](https://github.com/MariamIdrees/Flashcard-Deck-and-Quiz-App-Project.git)
+cd Flashcard-Deck-and-Quiz-App-Project
+
+2. Install dependencies
+
+npm install
+
+3. Set up Environment Variables
+
+Create a .env file in the root directory and add your Supabase credentials:
+
+VITE_SUPABASE_URL=https://zminedifeyxeoxdobrzj.supabase.co
+VITE_SUPABASE_ANON_KEY=sb_publishable__hG5TnXZy1JXZRmWTrM_rg_xFaXemvu
+
+4. Run the development server
+
+npm run dev
+
+Open your browser and navigate to the local URL provided by Vite (usually http://localhost:5173).
+
+👥 Contributors
+
+**Chiamaka Love Ododo**
+**Jennifer Ogbang**
+**Mariam Modupe Idrees**
+**Harmorhpe (Awawu Aromire)**
+**   **
+**   **
+**   **
+
+---
+
+📄 License
+This project is open-source and available under the MIT License.
+
+
+---
